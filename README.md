@@ -44,7 +44,15 @@ The visual study guide presents the complete month as a roadmap, then explains t
 
 The practice worksheet is designed to be completed before reviewing the flash-card answers. It includes 29 prompts, code-writing questions, diagram prompts, and a confidence tracker.
 
-The interactive learning program is the main hands-on experience. Open it directly in a browser and work through HTML, CSS, JavaScript, React, debugging, and capstone modules. It saves checklist progress and the teach-back response in the browser's local storage.
+The interactive learning program is a self-paced course, not just a reference page. The home screen shows a course syllabus with six modules (HTML, CSS, JavaScript, React, Debugging, Capstone) that unlock in order: each module is locked (🔒 in the sidebar) until you pass the previous module's quiz (or, for the capstone gate, finish the debugging diagnosis), and a "Start the course" / "Continue: Module N" / "View your certificate" button always points at the right next step. Each unlocked module includes a real, well-reviewed YouTube tutorial from a reputable channel (freeCodeCamp.org, Chrome for Developers, Bro Code) covering the topic in depth, shown as a click-to-play video card, plus a sliding deck of 4-6 in-depth topic pages you page through with Prev/Next buttons, dot indicators, keyboard arrow keys, or a swipe gesture, and a 5-question graded quiz with a running score (the debugging module ends in a written diagnosis instead). Training-depth topics now covered include: semantic regions, forms/validation, tables, lists/links, and HTML5 input types; the box model, Flexbox, Grid, cascade/specificity, positioning, custom properties, and responsive units; JavaScript array methods, closures, async/await, destructuring, variable scope, function types, and error handling/JSON; React data flow, hooks, custom hooks, JSX rules, composition, and controlled forms; console/network/breakpoints/stack traces, common error types, network waterfalls, and React-specific pitfalls; and a capstone covering component hierarchy, a code-review checklist, and a final QA/deployment checklist. It saves quiz scores, checklist progress, and the teach-back response in the browser's local storage. Finish every module quiz and the capstone checklist to unlock a printable certificate of completion.
+
+**To play the videos inline**, YouTube requires the page to be served over `http://` rather than opened directly from disk (`file://`). Start a local server from this folder and open the page through it:
+
+```powershell
+python -m http.server 8000
+```
+
+Then open `http://localhost:8000/Month_1_Interactive_Learning.html` in your browser. If you open the file directly instead, the video cards still show a thumbnail and a "Watch on YouTube" fallback link that opens the video in a new tab.
 
 ## Study Routine
 

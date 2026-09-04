@@ -20,9 +20,23 @@ button { cursor:pointer; }
 .progress-bar { height:7px; margin-top:9px; background:#102438; overflow:hidden; }
 .progress-bar span { display:block; width:0; height:100%; background:#9fc5d1; transition:width .25s; }
 .nav { display:grid; gap:6px; }
-.nav button { padding:11px 12px; color:#dce8ef; background:transparent; border:1px solid transparent; text-align:left; }
+.nav button { display:flex; align-items:center; gap:8px; padding:11px 12px; color:#dce8ef; background:transparent; border:1px solid transparent; text-align:left; }
 .nav button:hover, .nav button.active { color:white; background:#35536d; border-color:#7892a8; }
+.nav button .label { flex:1 1 auto; min-width:0; }
 .nav button span { display:block; color:#9db2c2; font:10px Arial,sans-serif; margin-top:3px; }
+.nav button .status { flex:0 0 auto; font-style:normal; font-size:13px; color:#9fc5d1; }
+.nav button.locked { opacity:.5; pointer-events:none; }
+.syllabus { list-style:none; margin:0; padding:0; }
+.syllabus li { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--line); }
+.syllabus li:last-child { border-bottom:none; }
+.syllabus .num { display:flex; align-items:center; justify-content:center; width:28px; height:28px; flex:0 0 auto; color:white; background:var(--navy); border-radius:50%; font:700 12px Arial,sans-serif; }
+.syllabus li.done .num { background:var(--green); }
+.syllabus li.locked .num { background:#9aa7b2; }
+.syllabus .title { font-weight:700; color:var(--navy); }
+.syllabus .meta { color:var(--muted); font-size:12px; }
+.syllabus .tag-status { margin-left:auto; padding:4px 8px; font:700 10px Arial,sans-serif; letter-spacing:.4px; text-transform:uppercase; border:1px solid var(--line); color:var(--muted); }
+.syllabus li.done .tag-status { color:#155b32; border-color:#62a878; background:#eaf6ee; }
+.syllabus li.current .tag-status { color:var(--blue); border-color:#8fbfca; background:#edf7f9; }
 .main { min-width:0; max-width:1200px; width:100%; margin:0 auto; padding:34px 42px 60px; }
 .topbar { display:flex; justify-content:space-between; gap:20px; align-items:start; margin-bottom:26px; }
 .eyebrow { color:var(--blue); font:700 11px Arial,sans-serif; letter-spacing:1.3px; text-transform:uppercase; }
@@ -51,6 +65,25 @@ p { line-height:1.5; }
 .lesson-head { display:flex; justify-content:space-between; gap:15px; align-items:start; margin-bottom:18px; }
 .lesson-number { color:var(--muted); font:700 12px Arial,sans-serif; }
 .callout { margin:18px 0; padding:15px 18px; border-left:4px solid var(--blue); background:#edf7f9; }
+.callout.warn { border-left-color:var(--amber); background:#fff6ea; }
+.callout h4 { margin:0 0 6px; font-size:13px; }
+.lesson-page { max-width:none; }
+.lesson-page .eyebrow-lesson { color:var(--blue); font:700 11px Arial,sans-serif; letter-spacing:1.2px; text-transform:uppercase; }
+.lesson-page h3 { margin:6px 0 12px; font-size:23px; }
+.lesson-page h4 { margin:24px 0 8px; color:var(--navy); font-size:16px; }
+.lesson-page h4:first-of-type { margin-top:18px; }
+.lesson-page p { max-width:78ch; margin:0 0 12px; line-height:1.65; }
+.lesson-page ul, .lesson-page ol { margin:0 0 12px; padding-left:22px; line-height:1.6; }
+.lesson-page .code { margin:10px 0 16px; }
+.takeaways { margin-top:20px; padding:16px 18px; background:var(--wash); border:1px solid var(--line); }
+.takeaways h4 { margin:0 0 8px; color:var(--navy); font:700 11px Arial,sans-serif; letter-spacing:.6px; text-transform:uppercase; }
+.takeaways ul { margin:0; padding-left:20px; }
+.key-terms { margin-top:20px; padding:16px 18px; background:#fff; border:1px solid var(--line); border-left:4px solid var(--green); }
+.key-terms h4 { margin:0 0 10px; color:var(--navy); font:700 11px Arial,sans-serif; letter-spacing:.6px; text-transform:uppercase; }
+.key-terms dl { margin:0; }
+.key-terms dt { margin-top:9px; color:var(--navy); font-weight:700; }
+.key-terms dt:first-of-type { margin-top:0; }
+.key-terms dd { margin:2px 0 0; line-height:1.55; }
 .visual { min-height:230px; padding:20px; background:var(--wash); border:1px solid var(--line); }
 .diagram { display:flex; flex-direction:column; align-items:center; gap:8px; margin:15px auto; }
 .node { min-width:180px; padding:12px 15px; color:var(--navy); background:white; border:1px solid var(--navy); text-align:center; font-weight:700; }
@@ -75,86 +108,724 @@ select, input[type=text] { padding:9px; border:1px solid var(--line); background
 .checklist li { margin:12px 0; }
 .checklist input { width:17px; height:17px; margin-right:9px; vertical-align:middle; accent-color:var(--navy); }
 .small { font-size:12px; }
+.video-lesson { margin:14px 0; }
+.video-frame { position:relative; display:block; width:100%; max-width:min(100%, 860px); margin:0; aspect-ratio:16/9; background:#0b141c; border:2px solid #2c4256; overflow:hidden; cursor:pointer; }
+.video-frame img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+.video-frame .play-badge { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.video-frame .play-badge span { display:flex; align-items:center; justify-content:center; width:64px; height:64px; color:white; background:rgba(196,30,30,.92); border-radius:50%; font-size:24px; }
+.video-frame:hover .play-badge span { background:rgb(196,30,30); }
+.video-meta { max-width:860px; margin:9px 0 0; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:12px; }
+.video-meta a { color:var(--blue); }
+.video-chapters { max-width:860px; margin:10px 0 0; padding:13px 16px; background:var(--wash); border:1px solid var(--line); }
+.video-chapters h4 { margin:0 0 9px; font:700 11px Arial,sans-serif; letter-spacing:.5px; text-transform:uppercase; color:var(--navy); }
+.video-chapters ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px 22px; }
+.video-chapters li { flex:0 0 calc(50% - 11px); display:flex; font-size:13px; }
+.video-chapters .ts { flex:0 0 46px; display:inline-block; margin-right:4px; color:var(--blue); font:700 12px Consolas,"Courier New",monospace; }
+@media(max-width:600px) { .video-chapters li { flex:0 0 100%; } }
+.pager { margin-top:16px; }
+.pager-viewport { overflow:hidden; transition:height .25s ease; }
+.pager-track { display:flex; align-items:flex-start; transition:transform .35s ease; }
+.page { flex:0 0 100%; min-width:100%; box-sizing:border-box; padding-right:3px; }
+.pager-nav { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:14px; }
+.view > .card, .view > .certificate { margin-left:0; margin-right:0; }
+.pager-nav .secondary { padding:9px 14px; }
+.pager-nav .secondary:disabled { opacity:.35; cursor:default; }
+.pager-dots { display:flex; gap:7px; }
+.pager-dots button { width:9px; height:9px; padding:0; border-radius:50%; border:1px solid var(--navy); background:white; }
+.pager-dots button.active { background:var(--navy); }
+.pager-label { color:var(--muted); font:700 11px Arial,sans-serif; letter-spacing:.5px; }
+.timeline { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; }
+.timeline .step { flex:1 1 130px; padding:12px; color:var(--navy); background:var(--wash); border:1px solid var(--line); border-top:4px solid var(--blue); }
+.timeline .step b { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--blue); margin-bottom:4px; }
+.compare { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0; }
+.compare .bad { padding:12px; background:#fceeee; border:1px solid #d48787; }
+.compare .good { padding:12px; background:#eaf6ee; border:1px solid #62a878; }
+.compare .bad b, .compare .good b { display:block; margin-bottom:6px; font-size:11px; text-transform:uppercase; letter-spacing:.5px; }
+.compare .bad b { color:#8e2d2d; }
+.compare .good b { color:#155b32; }
+.tree { font-family:Consolas,"Courier New",monospace; font-size:13px; line-height:1.9; color:var(--navy); background:var(--wash); border:1px solid var(--line); padding:14px 18px; margin:14px 0; }
+.anim-box { width:60px; height:60px; margin:20px auto; background:var(--blue); border-radius:6px; transition:transform .6s ease, background .6s ease, border-radius .6s ease; }
+.anim-box.playing { transform:translateX(140px) rotate(180deg); background:var(--amber); border-radius:50%; }
+.narrator { margin:14px 0; padding:15px; background:#12202b; border:1px solid #2c4256; }
+.narrator-controls { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.narrator-controls button { padding:8px 13px; color:#0c1720; background:#9fc5d1; border:1px solid #6f9aa8; font-weight:700; }
+.narrator-controls button:disabled { opacity:.5; cursor:default; }
+.narrator-controls select { padding:6px; }
+.caption { min-height:46px; margin-top:11px; padding:11px 13px; color:#dce8ef; background:#0c1720; border-left:3px solid var(--blue); font-size:14px; line-height:1.5; }
+.caption .word-active { color:#9fc5d1; text-decoration:underline; }
+.grid-demo { display:grid; gap:8px; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(2,64px); margin:16px auto; max-width:400px; }
+.grid-demo div { display:flex; align-items:center; justify-content:center; color:white; background:var(--navy); font:700 12px Arial,sans-serif; }
+.grid-demo .span2 { grid-column:span 2; background:var(--blue); }
+.quiz-progress { display:flex; justify-content:space-between; color:var(--muted); font:11px Arial,sans-serif; margin-bottom:6px; }
+.quiz-score { margin-top:10px; padding:10px 13px; font-weight:700; background:#f1f8fa; border:1px solid var(--line); }
+.certificate { padding:50px 40px; text-align:center; background:var(--white); border:3px double var(--navy); }
+.certificate h2 { font-size:28px; }
+.certificate .name { margin:18px 0; font-size:30px; color:var(--navy); border-bottom:2px solid var(--line); display:inline-block; padding:0 20px 8px; }
+.certificate input { text-align:center; font-size:20px; padding:8px; border:1px solid var(--line); width:320px; max-width:90%; }
 @media(max-width:850px) { .app { display:block; } .sidebar { position:static; } .nav { grid-template-columns:repeat(2,1fr); } .main { padding:25px 18px 45px; } .grid.two,.grid.three { grid-template-columns:1fr; } .topbar { display:block; } }
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
-  <div class="brand"><small>Interactive learning lab</small><h1>Month 1<br>Foundations</h1></div>
+  <div class="brand"><small>Self-paced course</small><h1>Month 1<br>Foundations</h1></div>
   <div class="progress"><div class="progress-label"><span>Progress</span><strong id="progressText">0%</strong></div><div class="progress-bar"><span id="progressBar"></span></div></div>
   <nav class="nav" aria-label="Lessons">
-    <button data-view="home" class="active">Overview<span>Start here</span></button>
-    <button data-view="html">01 · HTML<span>Structure & semantics</span></button>
-    <button data-view="css">02 · CSS<span>Box model & Flexbox</span></button>
-    <button data-view="javascript">03 · JavaScript<span>Data & async flow</span></button>
-    <button data-view="react">04 · React<span>State & architecture</span></button>
-    <button data-view="debug">05 · Debugging<span>DevTools & AI review</span></button>
-    <button data-view="capstone">06 · Capstone<span>Build and explain</span></button>
-    <button data-view="reference">Reference<span>Glossary & review routine</span></button>
+    <button data-view="home" class="active"><span class="label">Overview<span>Start here</span></span></button>
+    <button data-view="html"><span class="label">01 · HTML<span>Structure & semantics</span></span><em class="status" data-status></em></button>
+    <button data-view="css" data-requires="html"><span class="label">02 · CSS<span>Box model & Flexbox</span></span><em class="status" data-status></em></button>
+    <button data-view="javascript" data-requires="css"><span class="label">03 · JavaScript<span>Data & async flow</span></span><em class="status" data-status></em></button>
+    <button data-view="react" data-requires="javascript"><span class="label">04 · React<span>State & architecture</span></span><em class="status" data-status></em></button>
+    <button data-view="debug" data-requires="react"><span class="label">05 · Debugging<span>DevTools & AI review</span></span><em class="status" data-status></em></button>
+    <button data-view="capstone" data-requires="debug"><span class="label">06 · Capstone<span>Build and explain</span></span><em class="status" data-status></em></button>
+    <button data-view="reference"><span class="label">Reference<span>Glossary & review routine</span></span></button>
+    <button data-view="certificate"><span class="label">Certificate<span>Finish all modules</span></span></button>
   </nav>
 </aside>
 <main class="main">
   <section id="home" class="view active">
-    <div class="topbar"><div><div class="eyebrow">A guided visual course</div><h2>Build the mental model first.</h2><p class="lead">Learn the foundations by seeing the structure, changing the code, and explaining what happened. Each lesson includes a diagram, a small interactive lab, and a knowledge check.</p></div><span class="tag">7 sections</span></div>
+    <div class="topbar"><div><div class="eyebrow">Month 1 course</div><h2>Build the mental model first.</h2><p class="lead">Learn the foundations by seeing the structure, changing the code, and explaining what happened. Each lesson includes a diagram, a small interactive lab, and a knowledge check.</p></div><span class="tag" id="courseTally">0 / 6 modules complete</span></div>
     <div class="grid three">
       <article class="card accent-blue"><div class="metric">01</div><h3>See</h3><p>Use diagrams for document structure, layout axes, data flow, and component boundaries.</p></article>
       <article class="card accent-amber"><div class="metric">02</div><h3>Change</h3><p>Interact with small examples. Toggle box sizing, transform arrays, and update state.</p></article>
       <article class="card accent-green"><div class="metric">03</div><h3>Explain</h3><p>Answer checks without notes, then use the feedback to target your next review.</p></article>
     </div>
-    <div class="card" style="margin-top:16px"><h3>Recommended path</h3><div class="flow" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="tag">HTML</span><strong>→</strong><span class="tag">CSS</span><strong>→</strong><span class="tag">JavaScript</span><strong>→</strong><span class="tag">React</span><strong>→</strong><span class="tag">Debugging</span><strong>→</strong><span class="tag">Capstone</span></div><p class="muted">Complete one module in a focused session. Revisit any check you miss before moving forward.</p><button class="primary" data-go="html">Begin HTML module</button></div>
+    <div class="card" style="margin-top:16px"><h3>Course syllabus</h3><p class="muted">Modules unlock in order. Pass a module's quiz (or, for the capstone, finish its checklist) to unlock the next one.</p><ul class="syllabus" id="syllabusList">
+      <li data-syllabus="html"><span class="num">1</span><div><div class="title">HTML: Give the page meaning</div><div class="meta">~50 min · video + 8 lessons + 7-question quiz</div></div><span class="tag-status" data-syllabus-tag>Start</span></li>
+      <li data-syllabus="css"><span class="num">2</span><div><div class="title">CSS: Make space predictable</div><div class="meta">~50 min · video + 8 lessons + 8-question quiz</div></div><span class="tag-status" data-syllabus-tag>Locked</span></li>
+      <li data-syllabus="javascript"><span class="num">3</span><div><div class="title">JavaScript: Transform data without surprises</div><div class="meta">~55 min · video + 8 lessons + 8-question quiz</div></div><span class="tag-status" data-syllabus-tag>Locked</span></li>
+      <li data-syllabus="react"><span class="num">4</span><div><div class="title">React: Make state and data flow visible</div><div class="meta">~50 min · video + 8 lessons + 8-question quiz</div></div><span class="tag-status" data-syllabus-tag>Locked</span></li>
+      <li data-syllabus="debug"><span class="num">5</span><div><div class="title">Debugging: Follow the evidence</div><div class="meta">~30 min · video + 6 pages + diagnosis</div></div><span class="tag-status" data-syllabus-tag>Locked</span></li>
+      <li data-syllabus="capstone"><span class="num">6</span><div><div class="title">Capstone: Build and teach back</div><div class="meta">~25 min · video + 4 pages + checklist</div></div><span class="tag-status" data-syllabus-tag>Locked</span></li>
+    </ul></div>
+    <div class="card" style="margin-top:16px"><h3>Each module includes</h3><ul><li>An embedded real video lesson from a reputable YouTube channel.</li><li>A sliding page deck of in-depth topic breakdowns you page through left and right, with dots, buttons, keyboard arrows, and swipe.</li><li>A multi-question graded quiz with a running score.</li><li>A knowledge check you can retake until mastered.</li></ul><p class="muted">Finish every module quiz and the capstone checklist to unlock your certificate of completion.</p></div>
+    <div class="card" style="margin-top:16px"><h3 id="courseCtaHeading">Ready to start?</h3><p class="muted" id="courseCtaText">Complete one module in a focused session. Revisit any check you miss before moving forward.</p><button class="primary" id="courseCta" data-go="html">Start the course</button></div>
   </section>
 
   <section id="html" class="view">
     <div class="lesson-head"><div><div class="eyebrow">Module 01</div><h2>HTML: Give the page meaning.</h2><p class="lead">HTML is the structure and meaning of a page. Good markup helps browsers, users, and assistive technology understand the interface.</p></div><div class="lesson-number">1 / 6</div></div>
-    <div class="grid two"><article class="card accent-blue"><h3>Visual model</h3><div class="diagram"><div class="node">html · root</div><div class="arrow">↓</div><div class="node">head · metadata</div><div class="arrow">↓</div><div class="node">body · visible content</div></div><div class="code">&lt;header&gt; &lt;nav&gt; &lt;main&gt; &lt;footer&gt;</div></article><article class="card"><h3>Build the skeleton</h3><p>Every HTML page begins with a document declaration, a root element, metadata, and visible content.</p><div class="code">&lt;!DOCTYPE html&gt;
+    <div class="video-lesson" data-video="html"><div class="video-frame" data-video-id="cv2hzyO3X48"><img src="https://img.youtube.com/vi/cv2hzyO3X48/hqdefault.jpg" alt="" loading="lazy"><span class="play-badge"><span>&#9654;</span></span></div><div class="video-meta"><span>Learn HTML in 15 Minutes (14:34)</span><a href="https://www.youtube.com/watch?v=cv2hzyO3X48" target="_blank" rel="noopener">Coding2GO on YouTube &#8599;</a></div></div>
+    <div class="video-chapters"><h4>What this video covers</h4><ul><li><span class="ts">0:11</span>Why learn HTML?</li><li><span class="ts">0:45</span>VS Code installation</li><li><span class="ts">1:06</span>Creating an HTML project</li><li><span class="ts">2:48</span>Syntax of HTML elements</li><li><span class="ts">3:57</span>Headings</li><li><span class="ts">5:25</span>Attributes</li><li><span class="ts">6:38</span>The basic HTML structure</li><li><span class="ts">9:20</span>Links to other websites</li><li><span class="ts">10:35</span>Semantic HTML tags</li><li><span class="ts">11:53</span>Images</li><li><span class="ts">12:38</span>Lists (<code>ol</code>/<code>ul</code>)</li><li><span class="ts">13:07</span>Summary</li></ul></div>
+    <div class="pager" data-pager="html">
+      <div class="pager-viewport"><div class="pager-track" data-page-track>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 1 of 8</div><h3>Document anatomy</h3>
+          <p>Every HTML file follows the same skeleton, and each part of that skeleton exists for a reason. Before you write a single visible word, the browser needs to know what kind of document it is looking at, what language it is written in, how to read its characters, and what metadata describes it. Getting this skeleton right is what makes everything else — styling, scripting, accessibility, search rankings — work correctly.</p>
+          <h4>The doctype and the root element</h4>
+          <p><code>&lt;!DOCTYPE html&gt;</code> is not an HTML tag; it is an instruction to the browser to render the page in modern "standards mode" instead of a legacy quirks mode that mimics old, inconsistent browser behavior. It must be the very first line of the file.</p>
+          <p>The <code>&lt;html&gt;</code> element is the root of the whole document and should always carry a <code>lang</code> attribute, such as <code>lang="en"</code>. This single attribute tells screen readers which pronunciation rules to use and tells browsers which language to offer for translation. Leaving it out is one of the most common accessibility mistakes.</p>
+          <h4>Inside the head</h4>
+          <p>The <code>&lt;head&gt;</code> holds metadata: information about the page rather than content on the page. Four elements appear in almost every head: a character-set declaration, a viewport tag, a title, and a stylesheet link.</p>
+          <div class="code">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
   &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
     &lt;title&gt;My Page&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
   &lt;/head&gt;
-  &lt;body&gt;Content&lt;/body&gt;
-&lt;/html&gt;</div></article></div>
-    <div class="grid two" style="margin-top:16px"><article class="card"><h3>Forms, media, and accessibility</h3><p><strong>Labels:</strong> a label's <code>for</code> must match the input's <code>id</code>. <strong>Images:</strong> use descriptive <code>alt</code> text, or <code>alt=""</code> for decorative images. <strong>Media:</strong> <code>source</code> supplies alternatives inside <code>picture</code>, <code>audio</code>, and <code>video</code>.</p><div class="code">&lt;label for="email"&gt;Email&lt;/label&gt;
-  &lt;input id="email" type="email" required&gt;
-  &lt;img src="profile.jpg" alt="Profile portrait">
-  &lt;video controls&gt;&lt;source src="lesson.mp4"&gt;&lt;/video&gt;</div></article><article class="card"><h3>Knowledge check</h3><p>Which section contains metadata, the page title, and the external stylesheet link?</p><button class="choice" data-answer="wrong">The <code>body</code></button><button class="choice" data-answer="correct">The <code>head</code></button><button class="choice" data-answer="wrong">The <code>footer</code></button><div class="feedback"></div></article></div>
+  &lt;body&gt;
+    &lt;!-- everything visible goes here --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</div>
+          <div class="callout"><h4>Why the viewport tag matters</h4><p>Without <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>, mobile browsers render the page at a fake desktop width (usually 980px) and then zoom out, making text tiny and layouts unusable on a phone. This one line is what makes a page "mobile friendly" at all.</p></div>
+          <div class="callout warn"><h4>Common mistake</h4><p>Forgetting <code>charset="UTF-8"</code> can cause special characters, curly quotes, or emoji to render as garbled symbols, because the browser guesses the wrong text encoding.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Doctype</dt><dd>A declaration that tells the browser which rendering mode to use; <code>&lt;!DOCTYPE html&gt;</code> selects modern standards mode.</dd><dt>Root element</dt><dd>The single outermost element of a document; in HTML this is always <code>&lt;html&gt;</code>.</dd><dt>Metadata</dt><dd>Data about the page itself (title, character set, viewport) rather than content shown to visitors.</dd><dt>Standards mode</dt><dd>A browser rendering mode that follows the modern HTML/CSS specifications consistently across browsers.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>The doctype must be the first line and triggers standards mode.</li><li><code>lang</code> on <code>&lt;html&gt;</code> is required for accessibility and translation.</li><li>The head describes the page; the body is what a visitor actually sees.</li><li>The viewport meta tag is what makes a layout responsive on mobile.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 2 of 8</div><h3>Semantic HTML and page layout</h3>
+          <p>"Semantic" markup means choosing an element because of what it means, not just how it looks. A <code>&lt;nav&gt;</code> and a <code>&lt;div&gt;</code> can look identical once styled, but only one of them tells a browser, a search engine, and a screen reader "this is the navigation." Semantic HTML is free accessibility and free SEO, and it costs nothing extra to write.</p>
+          <h4>The landmark elements</h4>
+          <p>Modern HTML provides landmark elements that describe the regions of a typical page: <code>&lt;header&gt;</code> for introductory content or a site banner, <code>&lt;nav&gt;</code> for primary navigation links, <code>&lt;main&gt;</code> for the one unique piece of content on the page, <code>&lt;aside&gt;</code> for tangentially related content like a sidebar, and <code>&lt;footer&gt;</code> for closing information. Screen reader users can jump directly between these landmarks with a single keystroke instead of listening to the entire page read aloud.</p>
+          <h4>Article and section</h4>
+          <p><code>&lt;article&gt;</code> wraps a piece of content that would make sense on its own if syndicated elsewhere, like a blog post or a product card. <code>&lt;section&gt;</code> groups related content under an implicit or explicit heading, such as a "Reviews" section of a product page. When neither meaning applies — you just need a styling hook — reach for a plain <code>&lt;div&gt;</code> or, for inline text, a <code>&lt;span&gt;</code>.</p>
+          <div class="compare"><div class="bad"><b>Div soup</b><div class="code">&lt;div class="header"&gt;...&lt;/div&gt;
+&lt;div class="nav"&gt;...&lt;/div&gt;
+&lt;div class="content"&gt;...&lt;/div&gt;
+&lt;div class="footer"&gt;...&lt;/div&gt;</div></div><div class="good"><b>Semantic</b><div class="code">&lt;header&gt;...&lt;/header&gt;
+&lt;nav&gt;...&lt;/nav&gt;
+&lt;main&gt;...&lt;/main&gt;
+&lt;footer&gt;...&lt;/footer&gt;</div></div></div>
+          <div class="callout warn"><h4>Common mistake</h4><p>Using more than one <code>&lt;main&gt;</code> per page, or nesting <code>&lt;main&gt;</code> inside another landmark. There should be exactly one <code>&lt;main&gt;</code>, holding the content unique to that page.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Semantic HTML</dt><dd>Markup chosen for the meaning of the content, not its default appearance.</dd><dt>Landmark</dt><dd>A structural region (header, nav, main, aside, footer) that assistive technology can navigate directly to.</dd><dt>Accessibility (a11y)</dt><dd>Designing so people using screen readers, keyboards, or other assistive tools can use the page.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Choose elements for meaning, not appearance.</li><li>Landmarks let assistive technology users navigate by region.</li><li><code>article</code> stands alone; <code>section</code> groups related content within a page.</li><li>Reach for <code>div</code>/<code>span</code> only when no semantic element fits.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 3 of 8</div><h3>Text content, headings, and lists</h3>
+          <p>Text is the most common content on the web, and HTML gives it structure through a heading hierarchy, paragraphs, inline emphasis, and lists. Getting the hierarchy right creates a page outline that both sighted users skimming the page and screen reader users navigating by heading can follow.</p>
+          <h4>Heading hierarchy</h4>
+          <p>Headings run from <code>&lt;h1&gt;</code> (most important) to <code>&lt;h6&gt;</code> (least important). A page should have exactly one <code>&lt;h1&gt;</code> describing its main topic, and heading levels should not skip — an <code>&lt;h2&gt;</code> should not jump straight to an <code>&lt;h4&gt;</code>. Screen reader users frequently pull up a list of headings to jump around a page, so a broken hierarchy breaks their navigation, not just the visual design.</p>
+          <h4>Inline text and lists</h4>
+          <p><code>&lt;strong&gt;</code> marks text of strong importance (usually bold); <code>&lt;em&gt;</code> marks stress emphasis (usually italic); both carry semantic weight that a plain <code>&lt;b&gt;</code> or <code>&lt;i&gt;</code> does not. For lists, use <code>&lt;ul&gt;</code> for an unordered set, <code>&lt;ol&gt;</code> when order matters and items should be numbered automatically, and <code>&lt;dl&gt;</code> to pair a term with its description.</p>
+          <div class="code">&lt;h1&gt;Recipe: Sourdough Bread&lt;/h1&gt;
+&lt;h2&gt;Ingredients&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;500g flour&lt;/li&gt;
+  &lt;li&gt;350g water&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Steps&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;Mix flour and water.&lt;/li&gt;
+  &lt;li&gt;Rest for 30 minutes.&lt;/li&gt;
+&lt;/ol&gt;</div>
+          <div class="callout"><h4>Character entities</h4><p>Some characters have special meaning in HTML and must be escaped: <code>&amp;lt;</code> for <code>&lt;</code>, <code>&amp;gt;</code> for <code>&gt;</code>, <code>&amp;amp;</code> for <code>&amp;</code>, and <code>&amp;nbsp;</code> for a non-breaking space.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Heading hierarchy</dt><dd>The nested order of <code>h1</code>-<code>h6</code> that forms a page's outline.</dd><dt>Inline element</dt><dd>An element that flows within a line of text, such as <code>strong</code>, <code>em</code>, or <code>a</code>.</dd><dt>Character entity</dt><dd>A reserved code like <code>&amp;amp;</code> used to display a character that would otherwise be parsed as markup.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>One <code>h1</code> per page; never skip heading levels.</li><li><code>strong</code> and <code>em</code> carry meaning, not just style.</li><li>Pick <code>ul</code>, <code>ol</code>, or <code>dl</code> based on what the list actually represents.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 4 of 8</div><h3>Links, images, and media</h3>
+          <p>Links and media are what make HTML hypertext instead of a plain document format. Getting their attributes right affects security, performance, and whether users with disabilities can actually perceive your content.</p>
+          <h4>Anchor attributes</h4>
+          <p>An <code>&lt;a&gt;</code> element's <code>href</code> can point to an absolute URL, a relative path, an in-page anchor like <code>#section</code>, an email address via <code>mailto:</code>, or a phone number via <code>tel:</code>. Opening a link in a new tab with <code>target="_blank"</code> should always be paired with <code>rel="noopener noreferrer"</code>, because otherwise the new page can access and manipulate the original tab through <code>window.opener</code>, a real security risk.</p>
+          <h4>Writing good alt text</h4>
+          <p>Every informative <code>&lt;img&gt;</code> needs an <code>alt</code> attribute describing what the image conveys, not just what it depicts. A purely decorative image should use <code>alt=""</code> so screen readers skip it entirely instead of announcing a distracting filename. Always set explicit <code>width</code> and <code>height</code> attributes so the browser can reserve space before the image loads, preventing the rest of the page from jumping around (layout shift).</p>
+          <div class="code">&lt;img src="chart.png" alt="Sales grew 40% from Q1 to Q2" width="600" height="300"&gt;
+&lt;a href="/report.pdf" download&gt;Download report&lt;/a&gt;
+&lt;a href="https://example.com" target="_blank" rel="noopener noreferrer"&gt;External site&lt;/a&gt;</div>
+          <h4>Responsive and accessible media</h4>
+          <p><code>&lt;picture&gt;</code> with multiple <code>&lt;source&gt;</code> elements lets the browser choose the best image format or size for the current screen. <code>&lt;video&gt;</code> and <code>&lt;audio&gt;</code> both accept several <code>&lt;source&gt;</code> children for format fallback, and a <code>&lt;track&gt;</code> element inside <code>&lt;video&gt;</code> supplies captions for viewers who are deaf or watching with the sound off.</p>
+          <div class="code">&lt;video controls&gt;
+  &lt;source src="lesson.mp4" type="video/mp4"&gt;
+  &lt;track kind="captions" src="captions.vtt" srclang="en"&gt;
+&lt;/video&gt;</div>
+          <div class="callout warn"><h4>Common mistake</h4><p><code>alt="image"</code> or <code>alt="photo123.jpg"</code> tells a screen reader user nothing useful. Describe the content or purpose of the image instead.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Alt text</dt><dd>A text alternative for an image, announced by screen readers and shown if the image fails to load.</dd><dt>Layout shift</dt><dd>Unwanted movement of page content, often caused by images loading without reserved space.</dd><dt><code>rel="noopener"</code></dt><dd>An anchor attribute that stops a new tab from accessing the page that opened it.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Pair <code>target="_blank"</code> with <code>rel="noopener noreferrer"</code>.</li><li>Write <code>alt</code> text that describes meaning, and use <code>alt=""</code> for decoration.</li><li>Set image <code>width</code>/<code>height</code> to prevent layout shift.</li><li><code>track</code> elements provide captions for video.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 5 of 8</div><h3>Forms in depth</h3>
+          <p>Forms are how users send data back to a server, and they are one of the most accessibility-sensitive parts of HTML because they require precise input from people who may be using a keyboard, a screen reader, or voice control.</p>
+          <h4>Labels and inputs</h4>
+          <p>Every input needs an associated <code>&lt;label&gt;</code>. The most reliable way is matching the label's <code>for</code> attribute to the input's <code>id</code>; this also enlarges the clickable/tappable target to include the label text, which sighted users benefit from too.</p>
+          <h4>Choosing the right input type</h4>
+          <p>The <code>type</code> attribute changes both validation and the on-screen keyboard shown on mobile devices. <code>email</code>, <code>tel</code>, <code>number</code>, <code>date</code>, and <code>range</code> all trigger specialized input UI without any JavaScript.</p>
+          <h4>Validation and grouping</h4>
+          <p><code>required</code>, <code>pattern</code>, <code>minlength</code>/<code>maxlength</code>, and <code>min</code>/<code>max</code> let the browser block bad submissions before your code runs. <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code> groups related fields — like a shipping address — and announces that group's purpose to assistive technology.</p>
+          <div class="code">&lt;form action="/signup" method="post"&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;Account details&lt;/legend&gt;
+    &lt;label for="email"&gt;Email&lt;/label&gt;
+    &lt;input id="email" name="email" type="email" required&gt;
+
+    &lt;label for="age"&gt;Age&lt;/label&gt;
+    &lt;input id="age" name="age" type="number" min="13" max="120" required&gt;
+  &lt;/fieldset&gt;
+  &lt;button type="submit"&gt;Create account&lt;/button&gt;
+&lt;/form&gt;</div>
+          <div class="callout"><h4>Accessible error messages</h4><p>Connect an error message to its field with <code>aria-describedby</code> so a screen reader announces the error immediately after reading the field, instead of leaving the user to discover it separately.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Form control</dt><dd>Any input, select, or textarea that collects user data.</dd><dt>Client-side validation</dt><dd>Checks the browser performs before submission, using attributes like <code>required</code> and <code>pattern</code>.</dd><dt><code>fieldset</code>/<code>legend</code></dt><dd>A pair of elements that group related form fields under a shared, announced name.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Every input needs a linked <code>label</code>.</li><li>The right <code>type</code> gives free validation and the correct mobile keyboard.</li><li><code>fieldset</code>/<code>legend</code> group and name related fields.</li><li>Native validation attributes reduce the JavaScript you need to write.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 6 of 8</div><h3>Tables for tabular data</h3>
+          <p>Tables were once misused for entire page layouts before CSS matured; today they should be reserved strictly for data that actually has rows and columns, like a schedule, a price list, or a comparison chart.</p>
+          <h4>Table structure</h4>
+          <p><code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, and <code>&lt;tfoot&gt;</code> group a table's header, body, and summary rows. <code>&lt;th&gt;</code> marks a header cell and <code>&lt;td&gt;</code> marks a data cell. A <code>&lt;caption&gt;</code> as the table's first child gives it an accessible name, similar to an image's alt text.</p>
+          <h4>Making tables accessible</h4>
+          <p>The <code>scope</code> attribute on a <code>&lt;th&gt;</code> declares whether that header applies to its <code>col</code>umn or its <code>row</code>, which lets a screen reader announce the right header as a user moves through the data cells.</p>
+          <div class="code">&lt;table&gt;
+  &lt;caption&gt;Quarterly sales by region&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th scope="col"&gt;Region&lt;/th&gt;&lt;th scope="col"&gt;Q1&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;th scope="row"&gt;West&lt;/th&gt;&lt;td&gt;$12,400&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</div>
+          <div class="callout warn"><h4>Common mistake</h4><p>Using a table purely to arrange unrelated content side by side. That is a job for CSS Flexbox or Grid, covered in the next module.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Tabular data</dt><dd>Data naturally organized into rows and columns, the only appropriate use for a table.</dd><dt><code>scope</code></dt><dd>A <code>th</code> attribute declaring whether a header describes its column or its row.</dd><dt>Caption</dt><dd>An accessible, visible name for a table, similar in purpose to an image's alt text.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Tables are for tabular data, never for page layout.</li><li><code>scope</code> ties a header to its column or row for screen readers.</li><li><code>caption</code> gives the whole table an accessible name.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 7 of 8</div><h3>Accessibility fundamentals</h3>
+          <p>Accessibility means a page can be used by people with visual, motor, auditory, or cognitive disabilities, typically using a screen reader, keyboard-only navigation, or voice control. Semantic HTML, covered throughout this module, is the foundation; ARIA and focus management fill the remaining gaps.</p>
+          <h4>The first rule of ARIA</h4>
+          <p>The first rule of ARIA is: do not use ARIA if a native HTML element or attribute already provides the behavior or semantics you need. A native <code>&lt;button&gt;</code> is already keyboard-operable and announced correctly; recreating it with a styled <code>&lt;div role="button"&gt;</code> means you must also manually add keyboard support, focus styles, and state management that the browser gave you for free.</p>
+          <h4>Keyboard navigation and focus</h4>
+          <p>Every interactive element must be reachable and operable using only the Tab key and Enter/Space, because many users cannot use a mouse. A visible focus outline is not optional decoration; removing it with <code>outline: none</code> and not replacing it with something equally visible strands keyboard users. A "skip to main content" link as the very first focusable element lets keyboard users bypass repeated navigation on every page.</p>
+          <div class="code">&lt;a class="skip-link" href="#main"&gt;Skip to main content&lt;/a&gt;
+&lt;nav&gt;...&lt;/nav&gt;
+&lt;main id="main"&gt;...&lt;/main&gt;</div>
+          <h4>Color and contrast</h4>
+          <p>Text needs sufficient contrast against its background to be legible for users with low vision or color blindness, and color should never be the only way information is conveyed — pair a red error color with an icon or the word "Error" as well.</p>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>ARIA</dt><dd>Accessible Rich Internet Applications; a set of attributes that describe roles and states HTML cannot express natively.</dd><dt>Focus management</dt><dd>Controlling which element currently receives keyboard input, and making that element visibly obvious.</dd><dt>Skip link</dt><dd>A hidden-until-focused link letting keyboard users jump past repeated navigation.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Prefer native elements over ARIA re-implementations.</li><li>Never remove focus outlines without an equally visible replacement.</li><li>Add a skip link as the first focusable element.</li><li>Never rely on color alone to convey meaning.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 8 of 8</div><h3>Debugging and validating HTML</h3>
+          <p>Browsers are extremely forgiving of malformed HTML: an unclosed tag or a missing quote usually still renders something, which can hide real bugs until they surface unpredictably in a different browser or after a small edit elsewhere on the page.</p>
+          <h4>Inspecting the real DOM</h4>
+          <p>Open DevTools' Elements panel to see the DOM the browser actually built, which can differ from your source code once the browser has "fixed" invalid nesting. If an element you expect to see is missing or duplicated, this is the first place to look.</p>
+          <h4>Common structural bugs</h4>
+          <ul><li>An unclosed tag that swallows the rest of the page inside it.</li><li>Block-level elements like <code>div</code> or <code>p</code> nested inside inline elements like <code>span</code> or <code>a</code>, which some browsers silently rearrange.</li><li>Duplicate <code>id</code> values: an <code>id</code> must be unique per page, and duplicates break both CSS selectors and <code>label for</code> associations.</li><li>A <code>label for</code> that no longer matches its input's <code>id</code> after a rename.</li></ul>
+          <div class="callout"><h4>Validate before you ship</h4><p>Running a page through an HTML validator surfaces structural errors that the browser silently repaired, before they cause a real bug for a real user.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>DOM</dt><dd>Document Object Model; the browser's live, in-memory tree representation of the parsed page.</dd><dt>Validator</dt><dd>A tool that checks markup against the HTML specification and reports structural errors.</dd><dt>Duplicate ID</dt><dd>Two elements sharing one <code>id</code> value, which breaks CSS selectors and form label associations.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Browsers silently repair bad HTML, which can hide bugs.</li><li>Use DevTools' Elements panel to see the real, parsed DOM.</li><li>Duplicate <code>id</code> values are a frequent, hard-to-spot bug.</li></ul></div>
+        </article></div>
+      </div></div>
+      <div class="pager-nav"><button class="secondary" data-page-prev>&#8249; Prev</button><div class="pager-dots" data-page-dots></div><span class="pager-label" data-page-label></span><button class="secondary" data-page-next>Next &#8250;</button></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Knowledge check</h3><div class="quiz-progress"><span>Module quiz</span><span data-quiz-count="html">Question 1 of 7</span></div><div data-quiz="html" data-quiz-index="0"><p>Which section contains metadata, the page title, and the external stylesheet link?</p><button class="choice" data-answer="wrong">The <code>body</code></button><button class="choice" data-answer="correct">The <code>head</code></button><button class="choice" data-answer="wrong">The <code>footer</code></button><div class="feedback"></div></div><div data-quiz="html" data-quiz-index="1" style="display:none"><p>Which attribute lets a screen reader tie a table header to its column?</p><button class="choice" data-answer="correct"><code>scope="col"</code></button><button class="choice" data-answer="wrong"><code>align="left"</code></button><button class="choice" data-answer="wrong"><code>colspan="2"</code></button><div class="feedback"></div></div><div data-quiz="html" data-quiz-index="2" style="display:none"><p>Which attribute names an icon-only button for assistive technology?</p><button class="choice" data-answer="wrong"><code>title</code> only</button><button class="choice" data-answer="correct"><code>aria-label</code></button><button class="choice" data-answer="wrong"><code>data-name</code></button><div class="feedback"></div></div><div data-quiz="html" data-quiz-index="3" style="display:none"><p>Which list element pairs a term with its description?</p><button class="choice" data-answer="wrong"><code>ol</code></button><button class="choice" data-answer="wrong"><code>ul</code></button><button class="choice" data-answer="correct"><code>dl</code></button><div class="feedback"></div></div><div data-quiz="html" data-quiz-index="4" style="display:none"><p>Which element groups related form fields for assistive technology?</p><button class="choice" data-answer="correct"><code>fieldset</code></button><button class="choice" data-answer="wrong"><code>datalist</code></button><button class="choice" data-answer="wrong"><code>optgroup</code></button><div class="feedback"></div></div><div data-quiz="html" data-quiz-index="5" style="display:none"><p>What should always be paired with <code>target="_blank"</code> for security?</p><button class="choice" data-answer="wrong"><code>download</code></button><button class="choice" data-answer="correct"><code>rel="noopener noreferrer"</code></button><button class="choice" data-answer="wrong"><code>rel="stylesheet"</code></button><div class="feedback"></div></div><div data-quiz="html" data-quiz-index="6" style="display:none"><p>What is the first rule of ARIA?</p><button class="choice" data-answer="wrong">Add <code>role</code> to every element</button><button class="choice" data-answer="correct">Do not use ARIA if a native element already does the job</button><button class="choice" data-answer="wrong">Use ARIA instead of semantic HTML</button><div class="feedback"></div></div><div class="quiz-score" data-quiz-score="html">Score: 0 / 7</div></div>
   </section>
 
   <section id="css" class="view">
     <div class="lesson-head"><div><div class="eyebrow">Module 02</div><h2>CSS: Make space predictable.</h2><p class="lead">The box model explains size. Flexbox explains alignment. Responsive constraints keep the page usable across screens.</p></div><div class="lesson-number">2 / 6</div></div>
-    <div class="grid two"><article class="card accent-amber"><h3>Box model explorer</h3><div class="box-model">margin<div class="padding">border<div class="border">padding<div class="content" id="boxContent">content: 240px</div></div></div></div><div class="demo-controls"><button class="secondary" id="boxToggle">Switch to border-box</button></div><p class="small muted" id="boxMessage">content-box: padding and border add to the declared width.</p></article><article class="card"><h3>Flexbox axes</h3><div class="axes"></div><p><strong>justify-content</strong> works along the main axis. <strong>align-items</strong> works along the cross axis. Change <code>flex-direction</code> to change the main axis.</p><div class="code">display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;</div></article></div>
-    <div class="grid two" style="margin-top:16px"><article class="card"><h3>Responsive constraints</h3><p>Prefer fluid constraints over a fixed desktop width. Test at 320px, 768px, and 1440px.</p><div class="code">width: 100%;
-  max-width: 600px;
-  margin-inline: auto;</div><p class="small muted"><code>1rem</code> follows the root font size and respects user zoom settings.</p></article><article class="card"><h3>DevTools inspection</h3><p><strong>Elements:</strong> inspect the box model. <strong>Styles:</strong> find the winning rule and overridden declarations. <strong>Computed:</strong> read the final pixel values. <strong>Device mode:</strong> test responsive widths.</p></article></div>
-    <div class="card" style="margin-top:16px"><h3>Knowledge check</h3><p>Which property includes padding and borders inside the declared width?</p><button class="choice" data-answer="correct"><code>box-sizing: border-box</code></button><button class="choice" data-answer="wrong"><code>display: flex</code></button><button class="choice" data-answer="wrong"><code>width: auto</code></button><div class="feedback"></div></div>
+    <div class="video-lesson" data-video="css"><div class="video-frame" data-video-id="HheRpUCYN9Q"><img src="https://img.youtube.com/vi/HheRpUCYN9Q/hqdefault.jpg" alt="" loading="lazy"><span class="play-badge"><span>&#9654;</span></span></div><div class="video-meta"><span>CSS Flexbox vs Grid Explained (6:28)</span><a href="https://www.youtube.com/watch?v=HheRpUCYN9Q" target="_blank" rel="noopener">CSSnippets on YouTube &#8599;</a></div></div>
+    <div class="video-chapters"><h4>What this video covers</h4><ul><li><span class="ts">0:00</span>Intro</li><li><span class="ts">0:51</span>Example 1: Card layout</li><li><span class="ts">2:08</span>Example 2: Aligning buttons with Flexbox</li><li><span class="ts">3:09</span>Example 3: Full website layout with Grid</li><li><span class="ts">4:20</span>Example 4: Header layout with Flexbox</li><li><span class="ts">5:16</span>Example 5: Sidebar menu with Flexbox</li></ul></div>
+    <div class="pager" data-pager="css">
+      <div class="pager-viewport"><div class="pager-track" data-page-track>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 1 of 8</div><h3>The box model</h3>
+          <p>Every single element on a page is a rectangular box, and CSS lays those boxes out one by one. Before you can control layout with Flexbox or Grid, you need to understand how one box's own size is calculated, because that calculation is the foundation everything else builds on.</p>
+          <h4>Four layers, from the inside out</h4>
+          <p>Every box has four layers. <strong>Content</strong> is the actual text or image. <strong>Padding</strong> is transparent space inside the border, pushing the border away from the content. <strong>Border</strong> is a visible or invisible line around the padding. <strong>Margin</strong> is transparent space outside the border, pushing other elements away.</p>
+          <div class="box-model">margin<div class="padding">border<div class="border">padding<div class="content" id="boxContent">content: 240px</div></div></div></div>
+          <div class="demo-controls"><button class="secondary" id="boxToggle">Switch to border-box</button></div><p class="small muted" id="boxMessage">content-box: padding and border add to the declared width.</p>
+          <h4>Two competing box-sizing models</h4>
+          <p>By default (<code>box-sizing: content-box</code>), the <code>width</code> you declare applies only to the content layer; padding and border are added on top, so the final rendered box is always larger than the number you typed. <code>box-sizing: border-box</code> instead makes <code>width</code> include the padding and border, so the box you declare is the box you get. This is why nearly every modern CSS reset starts with <code>* { box-sizing: border-box; }</code>.</p>
+          <div class="code">.card {
+  width: 300px;
+  padding: 20px;
+  border: 2px solid;
+  box-sizing: border-box; /* rendered width stays 300px */
+}</div>
+          <div class="callout warn"><h4>Common mistake</h4><p>Setting a fixed <code>width</code> on a <code>content-box</code> element and then adding padding, and being surprised when it overflows its parent. Switch to <code>border-box</code> first when this happens.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Box model</dt><dd>The rectangular content/padding/border/margin structure the browser uses to size and space every element.</dd><dt><code>box-sizing</code></dt><dd>The property that chooses whether <code>width</code>/<code>height</code> include padding and border (<code>border-box</code>) or not (<code>content-box</code>).</dd><dt>Margin collapse</dt><dd>The behavior where two vertical margins between sibling elements combine into a single margin instead of adding together.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Every element is a box with content, padding, border, and margin layers.</li><li><code>border-box</code> keeps padding and border inside the declared width.</li><li>Most resets set <code>border-box</code> globally to avoid surprise overflow.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 2 of 8</div><h3>Selectors and the cascade</h3>
+          <p>CSS stands for Cascading Style Sheets, and the "cascading" part is the set of rules the browser uses to decide which declaration wins when multiple rules target the same element. Understanding the cascade turns "why isn't my CSS working" into a predictable, debuggable process.</p>
+          <h4>Selector types</h4>
+          <p>A <strong>type selector</strong> like <code>p</code> targets every element of that tag. A <strong>class selector</strong> like <code>.card</code> targets every element with that class, and is the most common building block for reusable styles. An <strong>ID selector</strong> like <code>#header</code> targets a single, unique element. Combinators like a space (descendant), <code>&gt;</code> (direct child), and <code>,</code> (grouping multiple selectors) let you target more precisely.</p>
+          <h4>Specificity</h4>
+          <p>When two rules target the same element, the browser calculates each selector's specificity: roughly, ID selectors outweigh class selectors, which outweigh type selectors. The more specific selector wins, regardless of the order the rules appear in the file. Only when specificity ties does source order decide, with the later rule winning.</p>
+          <div class="code">#nav .link { color: navy; }   /* id + class beats a class alone */
+.link { color: gray; }
+p { color: black; }           /* type selectors have the lowest weight */</div>
+          <div class="callout warn"><h4>Common mistake</h4><p>Reaching for <code>!important</code> to force a rule to win. It breaks the normal cascade and makes future overrides much harder; fix the selector's specificity instead.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Cascade</dt><dd>The algorithm the browser uses to resolve conflicting rules, based on origin, specificity, and source order.</dd><dt>Specificity</dt><dd>A weighting system that scores a selector by how precisely it targets an element.</dd><dt>Combinator</dt><dd>A symbol (space, <code>&gt;</code>, <code>+</code>, <code>~</code>) that describes the relationship between two selectors.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Class selectors are the standard building block for reusable styles.</li><li>Higher specificity wins regardless of source order.</li><li>Avoid <code>!important</code>; fix the selector instead.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 3 of 8</div><h3>Flexbox, one-dimensional layout</h3>
+          <p>Flexbox arranges a group of items along a single line, either a row or a column, and excels at distributing space and aligning items within that one dimension.</p>
+          <h4>The two axes</h4>
+          <p>Setting <code>display: flex</code> on a parent creates a <strong>main axis</strong>, which follows <code>flex-direction</code> (row by default), and a <strong>cross axis</strong> running perpendicular to it. <code>justify-content</code> aligns items along the main axis; <code>align-items</code> aligns them along the cross axis.</p>
+          <div class="axes"></div>
+          <div class="code">.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}</div>
+          <h4>Letting items grow and shrink</h4>
+          <p><code>flex-grow</code> lets an item expand to fill leftover space, <code>flex-shrink</code> lets it shrink when space is tight, and <code>flex-basis</code> sets its starting size before growing or shrinking. The shorthand <code>flex: 1</code> means "grow and shrink freely, starting from zero."</p>
+          <div class="callout"><h4>Why it matters</h4><p><code>gap</code> replaces the old trick of adding margin to every child except the last one, and works identically in Flexbox and Grid.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Main axis</dt><dd>The primary direction items are laid out along, set by <code>flex-direction</code>.</dd><dt>Cross axis</dt><dd>The axis perpendicular to the main axis.</dd><dt><code>flex</code> shorthand</dt><dd>Combines <code>flex-grow</code>, <code>flex-shrink</code>, and <code>flex-basis</code> into one declaration.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Flexbox lays out items along one axis at a time.</li><li><code>justify-content</code> is main-axis; <code>align-items</code> is cross-axis.</li><li><code>gap</code> spaces items without extra margin hacks.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 4 of 8</div><h3>CSS Grid, two-dimensional layout</h3>
+          <p>Where Flexbox handles one dimension at a time, Grid lets you define rows and columns together and place items anywhere in that structure, which suits whole-page layouts far better than nested Flexbox containers.</p>
+          <h4>Defining the grid</h4>
+          <p><code>grid-template-columns</code> and <code>grid-template-rows</code> describe the size of each track. The <code>fr</code> unit divides remaining space proportionally, so <code>repeat(4, 1fr)</code> creates four equal-width columns that share all available space.</p>
+          <div class="grid-demo"><div class="span2">1 span 2</div><div>2</div><div>3</div><div>4</div><div>5</div><div class="span2">6 span 2</div></div>
+          <div class="code">.layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.hero { grid-column: span 2; }</div>
+          <h4>Named template areas</h4>
+          <p><code>grid-template-areas</code> lets you sketch a layout as ASCII art and assign each child to a named region, which makes complex page layouts easy to read at a glance.</p>
+          <div class="code">.page {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar main";
+}
+.sidebar { grid-area: sidebar; }</div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Track</dt><dd>A single row or column in a grid.</dd><dt><code>fr</code> unit</dt><dd>A fraction of the remaining free space in a grid container.</dd><dt>Grid area</dt><dd>A named region of the grid assigned via <code>grid-template-areas</code> and <code>grid-area</code>.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Grid controls rows and columns together; Flexbox controls one axis.</li><li>The <code>fr</code> unit distributes remaining space proportionally.</li><li><code>grid-template-areas</code> makes page layout easy to visualize.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 5 of 8</div><h3>Positioning and stacking</h3>
+          <p>The <code>position</code> property changes how an element participates in normal document flow, and is what makes overlays, tooltips, sticky headers, and badges possible.</p>
+          <h4>The five position values</h4>
+          <ul><li><code>static</code>: the default; offsets like <code>top</code>/<code>left</code> are ignored.</li><li><code>relative</code>: offsets move it visually from its normal spot, but it still occupies its original space.</li><li><code>absolute</code>: removed from flow entirely, positioned against the nearest ancestor that is not <code>static</code>.</li><li><code>fixed</code>: positioned against the viewport itself, ignoring scrolling.</li><li><code>sticky</code>: behaves like <code>relative</code> until a scroll threshold, then sticks like <code>fixed</code>.</li></ul>
+          <div class="code">.card { position: relative; }
+.badge { position: absolute; top: 8px; right: 8px; }</div>
+          <h4>Stacking order</h4>
+          <p>When positioned elements overlap, <code>z-index</code> decides which one renders on top, but only among elements that already have a <code>position</code> other than <code>static</code>. A very large <code>z-index</code> used to "just fix it" is a sign of an unresolved stacking-context problem.</p>
+          <div class="callout warn"><h4>Common mistake</h4><p>Forgetting to set <code>position: relative</code> on the intended parent, so an <code>absolute</code> child positions itself against the whole page instead.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Positioned element</dt><dd>Any element whose <code>position</code> is not <code>static</code>.</dd><dt>Containing block</dt><dd>The ancestor an <code>absolute</code> element is positioned relative to.</dd><dt>Stacking context</dt><dd>A conceptual layer that groups how <code>z-index</code> is compared among a set of elements.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li><code>absolute</code> positions against the nearest non-static ancestor.</li><li><code>sticky</code> combines relative and fixed behavior around a scroll threshold.</li><li>A huge <code>z-index</code> usually hides a real stacking-context bug.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 6 of 8</div><h3>Responsive design</h3>
+          <p>Responsive design means one layout adapts to many screen sizes, from a narrow phone to a wide desktop monitor, instead of maintaining separate pages for each.</p>
+          <h4>Media queries</h4>
+          <p>A media query applies a block of CSS only when a condition, most often a minimum viewport width, is met. Writing "mobile-first" means the base styles target small screens, and <code>min-width</code> media queries progressively add complexity for larger screens.</p>
+          <div class="code">.layout { display: block; }
+@media (min-width: 768px) {
+  .layout { display: grid; grid-template-columns: 200px 1fr; }
+}</div>
+          <h4>Fluid sizing</h4>
+          <p>Prefer <code>max-width</code> with <code>width: 100%</code> over a fixed pixel width, so content shrinks gracefully on narrow screens instead of causing horizontal scrolling. Images should carry <code>max-width: 100%</code> so they never overflow their container.</p>
+          <div class="callout"><h4>Test at real widths</h4><p>Check layouts at roughly 320px (small phone), 768px (tablet), and 1440px (desktop) rather than only your own monitor's width.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Media query</dt><dd>A conditional CSS block that applies only when the viewport matches given criteria.</dd><dt>Mobile-first</dt><dd>Writing base styles for small screens first, then adding complexity with <code>min-width</code> queries.</dd><dt>Breakpoint</dt><dd>A viewport width at which the layout changes meaningfully.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Media queries apply styles conditionally based on viewport size.</li><li>Mobile-first means writing small-screen styles first.</li><li>Test at multiple real widths, not just your own monitor.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 7 of 8</div><h3>Custom properties and units</h3>
+          <p>CSS custom properties (informally called CSS variables) let you name a reusable value once and reference it everywhere, which is the foundation of consistent, themeable design systems.</p>
+          <h4>Declaring and reading a custom property</h4>
+          <p>A custom property is declared with two leading dashes, usually on <code>:root</code> so it is available everywhere, and read with the <code>var()</code> function, which accepts an optional fallback value as its second argument.</p>
+          <div class="code">:root { --brand: #263f5b; --gap: 12px; }
+.button { background: var(--brand); }
+.stack { gap: var(--gap, 8px); }</div>
+          <h4>Choosing the right unit</h4>
+          <p><code>rem</code> is relative to the root element's font size and stays predictable no matter how deeply nested an element is, which makes it the standard choice for spacing and type. <code>em</code> is relative to the current element's own font size and compounds when nested, which can surprise you. <code>%</code> is relative to the parent's size, and <code>vh</code>/<code>vw</code> are relative to the viewport's height and width.</p>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Custom property</dt><dd>A reusable, named value declared with <code>--name</code> and read with <code>var(--name)</code>.</dd><dt>Design token</dt><dd>A named, reusable design decision (a color, spacing value, or font size) often implemented as a custom property.</dd><dt>Root font size</dt><dd>The font size of the <code>html</code> element, which <code>rem</code> units are always relative to.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Custom properties cascade like normal CSS and can be overridden per component.</li><li>Prefer <code>rem</code> for predictable spacing and type sizing.</li><li><code>var()</code> accepts a fallback as its second argument.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 8 of 8</div><h3>Transitions, animations, and transforms</h3>
+          <p>Motion, used sparingly, helps users understand what changed and why, turning an abrupt jump into a change they can follow with their eyes.</p>
+          <h4>Transitions</h4>
+          <p>A <code>transition</code> smoothly animates a property between its old and new value whenever that value changes, such as on hover or a class toggle. Declare the property, duration, and easing curve; animate only <code>transform</code> and <code>opacity</code> when possible, since the browser can run those on the compositor without recalculating layout.</p>
+          <div class="anim-box" id="animBox"></div>
+          <div class="demo-controls"><button class="secondary" id="animToggle">Play transition</button></div>
+          <div class="code">.box {
+  transition: transform .6s ease, background .6s ease;
+}
+.box.playing { transform: translateX(140px); }</div>
+          <h4>Keyframe animations and transform functions</h4>
+          <p><code>@keyframes</code> defines multiple steps of an animation, useful for effects a simple two-state transition cannot express, like a continuous spinner. Common <code>transform</code> functions include <code>translate()</code> to move, <code>scale()</code> to resize, and <code>rotate()</code> to spin, all without affecting layout the way changing <code>width</code> or <code>margin</code> would.</p>
+          <div class="code">@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spinner { animation: spin 1s linear infinite; }</div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Transition</dt><dd>An automatic, smooth animation between a property's old and new value.</dd><dt>Keyframes</dt><dd>A named sequence of styles at different points in an animation timeline.</dd><dt>Compositor-friendly property</dt><dd>A property like <code>transform</code> or <code>opacity</code> the browser can animate without recalculating layout.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Animate <code>transform</code>/<code>opacity</code> for the smoothest performance.</li><li><code>@keyframes</code> handles multi-step animations a transition cannot.</li><li>Motion should clarify a change, not just decorate the page.</li></ul></div>
+        </article></div>
+      </div></div>
+      <div class="pager-nav"><button class="secondary" data-page-prev>&#8249; Prev</button><div class="pager-dots" data-page-dots></div><span class="pager-label" data-page-label></span><button class="secondary" data-page-next>Next &#8250;</button></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Knowledge check</h3><div class="quiz-progress"><span>Module quiz</span><span data-quiz-count="css">Question 1 of 8</span></div><div data-quiz="css" data-quiz-index="0"><p>Which property includes padding and borders inside the declared width?</p><button class="choice" data-answer="correct"><code>box-sizing: border-box</code></button><button class="choice" data-answer="wrong"><code>display: flex</code></button><button class="choice" data-answer="wrong"><code>width: auto</code></button><div class="feedback"></div></div><div data-quiz="css" data-quiz-index="1" style="display:none"><p>Given equal specificity, which rule wins?</p><button class="choice" data-answer="wrong">The shorter selector</button><button class="choice" data-answer="correct">The rule declared later in the stylesheet</button><button class="choice" data-answer="wrong">The rule with fewer properties</button><div class="feedback"></div></div><div data-quiz="css" data-quiz-index="2" style="display:none"><p>In Flexbox, which property aligns items along the cross axis?</p><button class="choice" data-answer="wrong"><code>justify-content</code></button><button class="choice" data-answer="correct"><code>align-items</code></button><button class="choice" data-answer="wrong"><code>flex-direction</code></button><div class="feedback"></div></div><div data-quiz="css" data-quiz-index="3" style="display:none"><p>Which layout system controls rows and columns at the same time?</p><button class="choice" data-answer="wrong">Flexbox</button><button class="choice" data-answer="correct">CSS Grid</button><button class="choice" data-answer="wrong">Positioning</button><div class="feedback"></div></div><div data-quiz="css" data-quiz-index="4" style="display:none"><p>Which position value takes an element out of normal flow and anchors it to the viewport?</p><button class="choice" data-answer="wrong"><code>relative</code></button><button class="choice" data-answer="correct"><code>fixed</code></button><button class="choice" data-answer="wrong"><code>static</code></button><div class="feedback"></div></div><div data-quiz="css" data-quiz-index="5" style="display:none"><p>What does "mobile-first" mean when writing media queries?</p><button class="choice" data-answer="wrong">Only supporting mobile devices</button><button class="choice" data-answer="correct">Writing small-screen styles first, then adding <code>min-width</code> queries</button><button class="choice" data-answer="wrong">Using <code>max-width</code> for every query</button><div class="feedback"></div></div><div data-quiz="css" data-quiz-index="6" style="display:none"><p>Which unit is relative to the root element's font size?</p><button class="choice" data-answer="wrong"><code>em</code></button><button class="choice" data-answer="correct"><code>rem</code></button><button class="choice" data-answer="wrong"><code>vw</code></button><div class="feedback"></div></div><div data-quiz="css" data-quiz-index="7" style="display:none"><p>Which properties animate most smoothly because the browser can skip recalculating layout?</p><button class="choice" data-answer="wrong"><code>width</code> and <code>margin</code></button><button class="choice" data-answer="correct"><code>transform</code> and <code>opacity</code></button><button class="choice" data-answer="wrong"><code>display</code> and <code>float</code></button><div class="feedback"></div></div><div class="quiz-score" data-quiz-score="css">Score: 0 / 8</div></div>
+
   </section>
 
   <section id="javascript" class="view">
     <div class="lesson-head"><div><div class="eyebrow">Module 03</div><h2>JavaScript: Transform data without surprises.</h2><p class="lead">References, immutable operations, and asynchronous flow explain why data changes appear correctly, incorrectly, or not at all.</p></div><div class="lesson-number">3 / 6</div></div>
-    <div class="grid two"><article class="card accent-amber"><h3>Array transformation lab</h3><p class="muted">Choose an operation and watch the result.</p><div class="demo-controls"><select id="arrayOperation"><option value="original">Original</option><option value="filter">filter: active only</option><option value="map">map: names only</option><option value="chain">filter then map</option></select></div><div class="demo-output" id="arrayOutput"></div><div class="code" id="arrayCode"></div></article><article class="card accent-blue"><h3>Fetch flow</h3><div class="diagram"><div class="node">pending Promise</div><div class="arrow">↓</div><div class="node">Response</div><div class="arrow">↓</div><div class="node">check response.ok</div><div class="arrow">↓</div><div class="node">await response.json()</div></div><p class="small">A 404 or 500 response usually resolves. Your code must check <code>response.ok</code>.</p></article></div>
-    <div class="grid two" style="margin-top:16px"><article class="card"><h3>Reference types and red flags</h3><p>If <code>objB = objA</code>, both variables point to the same object. Changing one changes the other. Create a shallow copy when updating.</p><div class="code">const next = { ...user, active: true };
-  const names = items.map(item =&gt; item.name);
-  const active = items.filter(item =&gt; item.active);</div><p class="small muted"><code>forEach</code> returns undefined. An arrow function with braces needs an explicit <code>return</code>.</p></article><article class="card"><h3>Knowledge check</h3><p>Which operation returns a new array of the same length?</p><button class="choice" data-answer="wrong"><code>filter</code></button><button class="choice" data-answer="correct"><code>map</code></button><button class="choice" data-answer="wrong"><code>forEach</code></button><div class="feedback"></div></article></div>
+    <div class="video-lesson" data-video="javascript"><div class="video-frame" data-video-id="670f71LTWpM"><img src="https://img.youtube.com/vi/670f71LTWpM/hqdefault.jpg" alt="" loading="lazy"><span class="play-badge"><span>&#9654;</span></span></div><div class="video-meta"><span>Asynchronous JavaScript in ~10 Minutes (13:55)</span><a href="https://www.youtube.com/watch?v=670f71LTWpM" target="_blank" rel="noopener">James Q Quick on YouTube &#8599;</a></div></div>
+    <div class="video-chapters"><h4>What this video covers</h4><ul><li><span class="ts">0:00</span>Intro</li><li><span class="ts">1:15</span>Callbacks</li><li><span class="ts">3:20</span>Error-first callback pattern</li><li><span class="ts">5:00</span>Promises</li><li><span class="ts">10:00</span>async/await</li></ul></div>
+    <div class="pager" data-pager="javascript">
+      <div class="pager-viewport"><div class="pager-track" data-page-track>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 1 of 8</div><h3>Values, types, and variables</h3>
+          <p>JavaScript has two families of values: primitives, which are copied by value, and objects (including arrays and functions), which are copied by reference. Confusing the two is the single most common source of "my data changed somewhere I didn't expect" bugs.</p>
+          <h4>Primitive types</h4>
+          <p>The primitive types are <code>string</code>, <code>number</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, and <code>symbol</code>. Assigning a primitive to a new variable copies its value; the two variables are independent from then on.</p>
+          <h4>Reference types</h4>
+          <p>Objects and arrays are reference types. Assigning one to a new variable copies the reference (the memory address), not the data, so both variables point to the exact same object. Changing a property through either variable is visible through both.</p>
+          <div class="code">let a = 5;
+let b = a;
+b = 10;          // a is still 5
+
+const objA = { count: 1 };
+const objB = objA;
+objB.count = 99;  // objA.count is now 99 too</div>
+          <h4>Declaring variables</h4>
+          <p><code>const</code> should be your default: it cannot be reassigned, which makes code easier to reason about. Use <code>let</code> only when a variable must change, such as a loop counter. Avoid <code>var</code> entirely in new code; it has confusing function-scoping and hoisting rules covered in a later lesson.</p>
+          <div class="callout warn"><h4>Common mistake</h4><p>Using <code>const</code> does not make an object immutable — it only stops <em>reassignment</em> of the variable. <code>const obj = {}; obj.name = 'Ada';</code> is perfectly legal.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Primitive</dt><dd>A value type copied by value: string, number, boolean, null, undefined, or symbol.</dd><dt>Reference type</dt><dd>An object, array, or function; variables hold a reference to it, not the data itself.</dd><dt>Immutability</dt><dd>Treating data as unchangeable, creating a new value instead of modifying the original.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Primitives copy by value; objects and arrays copy by reference.</li><li>Default to <code>const</code>; use <code>let</code> only when reassigning.</li><li><code>const</code> prevents reassignment, not mutation of an object's contents.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 2 of 8</div><h3>Operators and control flow</h3>
+          <p>Control flow is how a program decides which code actually runs, and it depends entirely on how JavaScript evaluates truth.</p>
+          <h4>Equality: <code>==</code> versus <code>===</code></h4>
+          <p><code>===</code> (strict equality) compares value and type with no conversion, and should be your default. <code>==</code> (loose equality) converts one or both sides before comparing, which produces surprising results like <code>0 == false</code> being <code>true</code>. Always reach for <code>===</code> unless you have a specific reason not to.</p>
+          <h4>Truthy and falsy values</h4>
+          <p>In a boolean context like an <code>if</code>, exactly six values are falsy: <code>false</code>, <code>0</code>, <code>""</code>, <code>null</code>, <code>undefined</code>, and <code>NaN</code>. Everything else, including <code>"0"</code> and an empty array <code>[]</code>, is truthy.</p>
+          <div class="code">if (user.name) { /* runs unless name is "", null, or undefined */ }
+for (let i = 0; i &lt; items.length; i++) { /* classic loop */ }
+for (const item of items) { /* preferred for arrays */ }</div>
+          <h4>Choosing a loop</h4>
+          <p><code>for...of</code> iterates values and is the standard choice for arrays. <code>for...in</code> iterates an object's enumerable keys and should not be used on arrays. A <code>switch</code> statement reads more clearly than a long <code>if/else if</code> chain when comparing one value against many exact cases.</p>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Strict equality (<code>===</code>)</dt><dd>Compares value and type with no implicit conversion.</dd><dt>Truthy/falsy</dt><dd>Whether a value evaluates as <code>true</code> or <code>false</code> in a boolean context.</dd><dt>Short-circuit evaluation</dt><dd>How <code>&amp;&amp;</code> and <code>||</code> stop evaluating as soon as the result is determined.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Prefer <code>===</code> over <code>==</code> to avoid implicit type conversion.</li><li>Only six values are falsy; everything else is truthy.</li><li>Use <code>for...of</code> for arrays, not <code>for...in</code>.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 3 of 8</div><h3>Functions, three ways</h3>
+          <p>A function is a reusable block of logic, and JavaScript gives you three syntaxes for writing one, each with slightly different behavior.</p>
+          <div class="code">function greet(name) { return `Hi ${name}`; }        // declaration, hoisted
+const greet2 = function(name) { return `Hi ${name}`; }; // expression
+const greet3 = name =&gt; `Hi ${name}`;                 // arrow, no own 'this'</div>
+          <h4>Hoisting and <code>this</code></h4>
+          <p>A function <em>declaration</em> is hoisted, meaning it can be called before its line in the file. A function <em>expression</em> is not. Arrow functions do not get their own <code>this</code>; they use whatever <code>this</code> was in the surrounding scope where they were defined, which is exactly why they are the standard choice for callbacks inside class methods and React components.</p>
+          <h4>Default and rest parameters</h4>
+          <p>A parameter can declare a default value used when no argument (or <code>undefined</code>) is passed. A rest parameter, written <code>...args</code>, gathers any remaining arguments into a real array.</p>
+          <div class="code">function connect(url, timeout = 5000) { /* timeout defaults to 5000 */ }
+function sum(...numbers) { return numbers.reduce((a, b) =&gt; a + b, 0); }</div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Hoisting</dt><dd>The behavior where function and <code>var</code> declarations are conceptually moved to the top of their scope before code runs.</dd><dt>Higher-order function</dt><dd>A function that takes another function as an argument or returns one.</dd><dt>Default parameter</dt><dd>A parameter value used automatically when no argument is supplied.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Only function declarations are hoisted, not expressions or arrows.</li><li>Arrow functions inherit <code>this</code> from where they were defined.</li><li>Rest parameters collect extra arguments into a real array.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 4 of 8</div><h3>Arrays, objects, and destructuring</h3>
+          <p>Most real work in JavaScript is transforming lists of data, and a small set of array methods cover the vast majority of cases without ever writing a manual loop.</p>
+          <h4>The core three: map, filter, reduce</h4>
+          <p><code>map</code> transforms every item and returns a new array of the same length. <code>filter</code> tests every item and returns a new array containing only the ones that pass. <code>reduce</code> folds an entire array down into a single value, such as a total or a lookup object. <code>forEach</code> simply runs a function per item and always returns <code>undefined</code> — never chain off it expecting a result.</p>
+          <div class="code">const names = users.map(u =&gt; u.name);
+const active = users.filter(u =&gt; u.active);
+const total = orders.reduce((sum, o) =&gt; sum + o.price, 0);</div>
+          <h4>Destructuring, spread, and rest</h4>
+          <p>Destructuring pulls values out of an array or object straight into named variables. The spread operator (<code>...</code>) copies items out of an array or object; the same three dots gather extra items into a variable when used in a parameter list or a destructuring pattern, where it is called "rest" instead.</p>
+          <div class="code">const { name, active } = user;
+const [first, ...rest] = items;
+const merged = { ...defaults, ...overrides };</div>
+          <div class="callout"><h4>Why this matters</h4><p>Spread is also the standard way to update state immutably: <code>{ ...user, active: true }</code> creates a new object instead of mutating <code>user</code> directly.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Immutable update</dt><dd>Creating a new array or object instead of mutating the existing one.</dd><dt>Spread operator</dt><dd><code>...</code> used to expand an array or object's items into a new one.</dd><dt>Destructuring</dt><dd>Syntax that unpacks array or object values directly into named variables.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li><code>map</code> transforms, <code>filter</code> selects, <code>reduce</code> folds to one value.</li><li><code>forEach</code> returns <code>undefined</code>; never chain off it.</li><li>Spread syntax is the standard tool for immutable updates.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 5 of 8</div><h3>Closures and scope</h3>
+          <p>A closure is what lets a function remember and keep using variables from the scope it was created in, even after that outer scope has already finished running. This single idea explains private counters, memoized caches, and why event handlers can still see the data they were set up with.</p>
+          <h4>Block versus function scope</h4>
+          <p><code>let</code> and <code>const</code> are block-scoped: they only exist inside the nearest <code>{ }</code>. <code>var</code> is function-scoped and ignores block boundaries entirely, which is one reason it is avoided in modern code.</p>
+          <div class="code">function makeCounter() {
+  let count = 0;              // captured by the closure below
+  return () =&gt; ++count;
+}
+const next = makeCounter();
+next(); next();               // 1, then 2 — count is remembered</div>
+          <h4>A scope leak example</h4>
+          <div class="code">function run() {
+  if (true) {
+    let scoped = 'inside';
+    var leaked = 'still visible outside the if';
+  }
+  console.log(leaked);   // works — var ignores the block
+  console.log(scoped);   // ReferenceError — let respects the block
+}</div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Closure</dt><dd>A function bundled with references to the variables from its surrounding scope at the time it was created.</dd><dt>Block scope</dt><dd>Visibility limited to the nearest enclosing <code>{ }</code>, used by <code>let</code>/<code>const</code>.</dd><dt>Temporal dead zone</dt><dd>The period before a <code>let</code>/<code>const</code> declaration's line runs, where reading it throws an error.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>A closure keeps outer variables alive as long as the inner function exists.</li><li><code>let</code>/<code>const</code> are block-scoped; <code>var</code> is function-scoped.</li><li>Closures are how counters and caches keep private state between calls.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 6 of 8</div><h3>Asynchronous JavaScript</h3>
+          <p>JavaScript runs on a single thread, so it cannot literally do two things at once; instead, slow operations like network requests are handed off and their results arrive later through callbacks, Promises, or <code>async</code>/<code>await</code>.</p>
+          <h4>From callbacks to Promises</h4>
+          <p>A callback is a function passed in to be called once an operation finishes. Deeply nested callbacks become hard to read ("callback hell"). A <code>Promise</code> represents a future success or failure and can be chained with <code>.then()</code>/<code>.catch()</code> instead of nesting.</p>
+          <h4><code>async</code>/<code>await</code></h4>
+          <p><code>async</code>/<code>await</code> is syntax built on top of Promises that lets asynchronous code read top-to-bottom like synchronous code. <code>await</code> pauses only the current <code>async</code> function until the Promise settles; it does not block the rest of the page.</p>
+          <div class="code">async function loadUser(id) {
+  try {
+    const res = await fetch(`/api/users/${id}`);
+    if (!res.ok) throw new Error('Request failed');
+    return await res.json();
+  } catch (err) {
+    console.error(err);
+  }
+}</div>
+          <div class="callout warn"><h4>Common mistake</h4><p><code>fetch</code> only rejects on a network failure; a 404 or 500 response still resolves normally. Always check <code>response.ok</code> before trusting the body.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Event loop</dt><dd>The mechanism that lets JavaScript run pending callbacks after the current code finishes, enabling asynchronous behavior on one thread.</dd><dt>Promise</dt><dd>An object representing the eventual success or failure of an asynchronous operation.</dd><dt><code>await</code></dt><dd>Pauses an <code>async</code> function until a Promise settles, without blocking the rest of the program.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>JavaScript is single-threaded; async operations hand off and resume later.</li><li><code>async</code>/<code>await</code> is Promise syntax that reads top-to-bottom.</li><li>Always check <code>response.ok</code>; <code>fetch</code> resolves even for error statuses.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 7 of 8</div><h3>Error handling and JSON</h3>
+          <p>Real programs fail: a network drops, a user types something unexpected, a server returns bad data. Handling errors deliberately, instead of letting them crash silently, is what separates a robust program from a fragile one.</p>
+          <h4><code>try</code>/<code>catch</code>/<code>finally</code></h4>
+          <p><code>try</code> runs code that might fail. <code>catch</code> handles the error if it does. <code>finally</code> always runs afterward, whether or not an error occurred, which makes it the right place for cleanup like hiding a loading spinner.</p>
+          <div class="code">try {
+  JSON.parse(badInput);
+} catch (err) {
+  console.error('Invalid JSON:', err.message);
+} finally {
+  setLoading(false);
+}</div>
+          <h4>JSON in and out</h4>
+          <p>JSON (JavaScript Object Notation) is the standard text format for sending structured data over a network. <code>JSON.stringify</code> converts a JavaScript value into a JSON string; <code>JSON.parse</code> converts it back. Both throw an error on malformed input, which is exactly why they belong inside a <code>try</code>/<code>catch</code>.</p>
+          <div class="code">const body = JSON.stringify({ name: 'Ada' });
+const data = JSON.parse(responseText);</div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Exception</dt><dd>An error thrown during execution that interrupts the normal flow unless caught.</dd><dt>JSON</dt><dd>A lightweight, text-based data format used to exchange structured data between systems.</dd><dt><code>finally</code></dt><dd>A block that always runs after <code>try</code>/<code>catch</code>, regardless of whether an error occurred.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li><code>finally</code> always runs, making it ideal for cleanup.</li><li><code>JSON.stringify</code> serializes; <code>JSON.parse</code> deserializes.</li><li>Both JSON methods can throw, so wrap them in <code>try</code>/<code>catch</code>.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 8 of 8</div><h3>The DOM and events</h3>
+          <p>The Document Object Model (DOM) is the browser's live, in-memory tree of the page. Plain JavaScript can read and change that tree directly, which is the foundation that frameworks like React ultimately build on top of.</p>
+          <h4>Selecting and changing elements</h4>
+          <div class="code">const button = document.querySelector('.save-button');
+button.textContent = 'Saved!';
+button.classList.add('is-active');</div>
+          <h4>Listening for events</h4>
+          <p><code>addEventListener</code> attaches a handler function that runs when an event, like a click, fires on an element. Events "bubble" upward through ancestor elements by default, which enables <strong>event delegation</strong>: attaching one listener to a parent instead of one listener per child, useful for lists that change over time.</p>
+          <div class="code">list.addEventListener('click', event =&gt; {
+  if (event.target.matches('.delete-btn')) {
+    event.target.closest('li').remove();
+  }
+});</div>
+          <div class="callout"><h4>Why it matters</h4><p>Event delegation means newly added list items automatically work with the existing listener, with no need to attach a new one to every item.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>DOM</dt><dd>Document Object Model; the browser's live tree representation of the page that JavaScript can read and modify.</dd><dt>Event bubbling</dt><dd>The default behavior where an event fired on an element also fires on its ancestors.</dd><dt>Event delegation</dt><dd>Attaching one listener to a parent element to handle events from many children, including future ones.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>The DOM is a live tree that JavaScript can query and mutate directly.</li><li>Events bubble from the target element up through its ancestors.</li><li>Event delegation avoids attaching a listener to every individual item.</li></ul></div>
+        </article></div>
+      </div></div>
+      <div class="pager-nav"><button class="secondary" data-page-prev>&#8249; Prev</button><div class="pager-dots" data-page-dots></div><span class="pager-label" data-page-label></span><button class="secondary" data-page-next>Next &#8250;</button></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Extended knowledge check</h3><div class="quiz-progress"><span>Module quiz</span><span data-quiz-count="javascript">Question 1 of 8</span></div><div data-quiz="javascript" data-quiz-index="0"><p>Assigning an object to a new variable copies which of the following?</p><button class="choice" data-answer="wrong">A brand new independent copy of the data</button><button class="choice" data-answer="correct">A reference to the same underlying object</button><button class="choice" data-answer="wrong">Nothing; the assignment fails</button><div class="feedback"></div></div><div data-quiz="javascript" data-quiz-index="1" style="display:none"><p>Which comparison operator avoids implicit type conversion?</p><button class="choice" data-answer="wrong"><code>==</code></button><button class="choice" data-answer="correct"><code>===</code></button><button class="choice" data-answer="wrong"><code>=</code></button><div class="feedback"></div></div><div data-quiz="javascript" data-quiz-index="2" style="display:none"><p>Which function type does not get its own <code>this</code>?</p><button class="choice" data-answer="wrong">A function declaration</button><button class="choice" data-answer="wrong">A function expression</button><button class="choice" data-answer="correct">An arrow function</button><div class="feedback"></div></div><div data-quiz="javascript" data-quiz-index="3" style="display:none"><p>Which operation returns a new array of the same length?</p><button class="choice" data-answer="wrong"><code>filter</code></button><button class="choice" data-answer="correct"><code>map</code></button><button class="choice" data-answer="wrong"><code>forEach</code></button><div class="feedback"></div></div><div data-quiz="javascript" data-quiz-index="4" style="display:none"><p>What lets an inner function keep access to variables from its outer function after that function returns?</p><button class="choice" data-answer="correct">A closure</button><button class="choice" data-answer="wrong">Hoisting</button><button class="choice" data-answer="wrong">Event bubbling</button><div class="feedback"></div></div><div data-quiz="javascript" data-quiz-index="5" style="display:none"><p>Where should you catch an error thrown by an <code>await</code>ed rejected Promise?</p><button class="choice" data-answer="wrong">You cannot catch it</button><button class="choice" data-answer="correct">A surrounding <code>try/catch</code></button><button class="choice" data-answer="wrong">A <code>for</code> loop</button><div class="feedback"></div></div><div data-quiz="javascript" data-quiz-index="6" style="display:none"><p>Which block always runs, whether or not an error was thrown?</p><button class="choice" data-answer="wrong"><code>try</code></button><button class="choice" data-answer="wrong"><code>catch</code></button><button class="choice" data-answer="correct"><code>finally</code></button><div class="feedback"></div></div><div data-quiz="javascript" data-quiz-index="7" style="display:none"><p>What lets one listener on a parent handle clicks from many, even future, child elements?</p><button class="choice" data-answer="wrong">Hoisting</button><button class="choice" data-answer="correct">Event delegation via bubbling</button><button class="choice" data-answer="wrong">Closures</button><div class="feedback"></div></div><div class="quiz-score" data-quiz-score="javascript">Score: 0 / 8</div></div>
   </section>
 
   <section id="react" class="view">
     <div class="lesson-head"><div><div class="eyebrow">Module 04</div><h2>React: Make state and data flow visible.</h2><p class="lead">React becomes predictable when data flows down through props and change requests flow up through focused callbacks.</p></div><div class="lesson-number">4 / 6</div></div>
-    <div class="grid two"><article class="card accent-green"><h3>Data flow diagram</h3><div class="diagram"><div class="node">parent state</div><div class="arrow">↓ props</div><div class="node">child UI</div><div class="arrow">↑ callback</div><div class="node">state update</div></div><div class="code">setCount(prev =&gt; prev + 1)</div></article><article class="card"><h3>State rules</h3><ul><li>Never mutate state directly.</li><li>Use a new array or object reference.</li><li>Use functional updates when next state depends on previous state.</li><li>Calculate derived values instead of storing duplicates.</li><li>Give mapped list items stable unique keys.</li></ul></article></div>
-    <div class="grid two" style="margin-top:16px"><article class="card"><h3>Next.js client boundary</h3><p>In the App Router, components are Server Components by default. Server Components cannot use browser APIs, event handlers, or hooks such as <code>useState</code>.</p><div class="code">&quot;use client&quot;
-  import { useState } from &quot;react&quot;;</div><p class="small muted">Put <code>use client</code> at the very top of the smallest interactive component.</p></article><article class="card"><h3>Knowledge check</h3><p>Which update avoids a stale state bug when the next count depends on the previous count?</p><button class="choice" data-answer="wrong"><code>setCount(count + 1)</code></button><button class="choice" data-answer="correct"><code>setCount(prev =&gt; prev + 1)</code></button><button class="choice" data-answer="wrong"><code>count++</code></button><div class="feedback"></div></article></div>
-  </section>
+    <div class="video-lesson" data-video="react"><div class="video-frame" data-video-id="LOH1l-MP_9k"><img src="https://img.youtube.com/vi/LOH1l-MP_9k/hqdefault.jpg" alt="" loading="lazy"><span class="play-badge"><span>&#9654;</span></span></div><div class="video-meta"><span>ALL React Hooks Explained in 12 Minutes (12:21)</span><a href="https://www.youtube.com/watch?v=LOH1l-MP_9k" target="_blank" rel="noopener">Code Bootcamp on YouTube &#8599;</a></div></div>
+    <div class="video-chapters"><h4>What this video covers</h4><ul><li><span class="ts">0:32</span>Map of all hooks</li><li><span class="ts">1:02</span>useState</li><li><span class="ts">2:14</span>useReducer</li><li><span class="ts">3:34</span>useEffect</li><li><span class="ts">5:05</span>useLayoutEffect</li><li><span class="ts">6:07</span>useRef</li><li><span class="ts">7:41</span>useMemo</li><li><span class="ts">8:18</span>useCallback</li><li><span class="ts">8:53</span>useContext</li><li><span class="ts">9:21</span>useTransition</li><li><span class="ts">11:12</span>useId</li></ul></div>
+    <div class="pager" data-pager="react">
+      <div class="pager-viewport"><div class="pager-track" data-page-track>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 1 of 8</div><h3>Components and JSX</h3>
+          <p>React builds an interface out of components: small, reusable functions that each return a description of some UI. Instead of imperatively pushing DOM changes yourself, you describe what the UI should look like for the current data, and React figures out how to update the real page to match.</p>
+          <h4>What JSX actually is</h4>
+          <p>JSX is a syntax extension that lets you write HTML-like markup directly inside JavaScript. It is not a template language; it compiles down to plain function calls that build a tree of objects describing the UI. That is why curly braces <code>{ }</code> embed a JavaScript <em>expression</em>, never a statement like <code>if</code> or a <code>for</code> loop.</p>
+          <div class="code">function Greeting({ name }) {
+  return &lt;h2 className="title"&gt;Hello, {name}!&lt;/h2&gt;;
+}</div>
+          <h4>Rules JSX enforces</h4>
+          <ul><li>A component must return a single root element; wrap multiple siblings in a <code>&lt;&gt;...&lt;/&gt;</code> fragment.</li><li>Use <code>className</code> instead of <code>class</code>, since <code>class</code> is a reserved JavaScript word.</li><li>Every element must be closed, including self-closing tags like <code>&lt;img /&gt;</code>.</li></ul>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Component</dt><dd>A reusable function that accepts props and returns a description of UI.</dd><dt>JSX</dt><dd>A syntax extension that compiles HTML-like markup into JavaScript function calls.</dd><dt>Fragment</dt><dd>An invisible wrapper (<code>&lt;&gt;...&lt;/&gt;</code>) used to return multiple elements without adding an extra DOM node.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Components are functions that return UI descriptions, not direct DOM edits.</li><li>Curly braces hold expressions only, never statements.</li><li>Fragments group siblings without adding an extra wrapping element.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 2 of 8</div><h3>Props and composition</h3>
+          <p>Props (short for properties) are the read-only inputs a parent passes down to a child component. They are how data flows through a React application, always downward.</p>
+          <div class="diagram"><div class="node">parent state</div><div class="arrow">↓ props</div><div class="node">child UI</div><div class="arrow">↑ callback</div><div class="node">state update</div></div>
+          <h4>Children and composition</h4>
+          <p>The special <code>children</code> prop lets a parent decide what content goes inside a wrapper component, which avoids duplicating layout markup like card borders or modal chrome everywhere they are used.</p>
+          <div class="code">function Card({ children }) {
+  return &lt;div className="card"&gt;{children}&lt;/div&gt;;
+}
+&lt;Card&gt;&lt;p&gt;Any content here&lt;/p&gt;&lt;/Card&gt;</div>
+          <div class="callout"><h4>Why it matters</h4><p>Because data only flows down through props, a bug where the wrong value appears can always be traced by following props upward to whichever component actually owns that state.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Props</dt><dd>Read-only values passed from a parent component into a child.</dd><dt>Unidirectional data flow</dt><dd>The React principle that data flows down through props, and requests to change it flow up through callbacks.</dd><dt>Composition</dt><dd>Building complex UI by combining smaller components, often via the <code>children</code> prop.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Props are read-only; a child never changes its own props directly.</li><li>Data flows down through props; change requests flow up through callbacks.</li><li><code>children</code> lets a parent supply arbitrary content to a wrapper.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 3 of 8</div><h3>State and <code>useState</code></h3>
+          <p>State is data a component owns and can change over time, and a state change is exactly what triggers React to re-render. <code>useState</code> is the fundamental hook for adding state to a function component.</p>
+          <div class="code">const [count, setCount] = useState(0);</div>
+          <h4>Never mutate state directly</h4>
+          <p>Always create a new array or object reference instead of mutating the existing one; React compares references to decide whether to re-render, so mutating in place can silently fail to update the screen.</p>
+          <h4>Functional updates</h4>
+          <p>When the next state depends on the previous state, pass a function to the setter instead of a plain value. This guarantees you are updating from the latest state, even if multiple updates happen in quick succession.</p>
+          <div class="code">setCount(prev =&gt; prev + 1);   // safe, always current
+setCount(count + 1);          // can use a stale value</div>
+          <div class="callout warn"><h4>Common mistake</h4><p>Storing a value in state that could instead be calculated during render from existing props or state. Derived values should never be duplicated into their own state slot.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>State</dt><dd>Component-owned data that can change and triggers a re-render when it does.</dd><dt>Functional update</dt><dd>Passing a function to a state setter so it always reads the latest state value.</dd><dt>Derived state</dt><dd>A value calculated from existing props or state during render, instead of stored separately.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Never mutate state directly; always create a new reference.</li><li>Use a functional update when the next state depends on the previous one.</li><li>Calculate derived values during render instead of storing duplicates.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 4 of 8</div><h3><code>useEffect</code> and side effects</h3>
+          <p>Rendering should be a pure calculation of UI from props and state. Anything that reaches outside that calculation — fetching data, subscribing to an event, manually touching the DOM — is a side effect, and belongs inside <code>useEffect</code>.</p>
+          <h4>The dependency array</h4>
+          <p>The array passed as <code>useEffect</code>'s second argument controls how often it runs. An empty array <code>[]</code> means "run once, after the first render." Listing a value means "re-run whenever that value changes." Omitting the array entirely means "run after every render," which is rarely what you want.</p>
+          <div class="code">useEffect(() =&gt; {
+  const id = setInterval(tick, 1000);
+  return () =&gt; clearInterval(id);  // cleanup, runs before the next effect or on unmount
+}, []);</div>
+          <div class="callout warn"><h4>Common mistake</h4><p>Reading a prop or state value inside <code>useEffect</code> without listing it in the dependency array. The effect then runs with a stale, outdated value instead of the current one.</p></div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Side effect</dt><dd>Any operation that reaches outside the pure render calculation, such as a network request.</dd><dt>Dependency array</dt><dd>The list of values a <code>useEffect</code> depends on, controlling when it re-runs.</dd><dt>Cleanup function</dt><dd>The function an effect can return, run before the next effect or on unmount, to cancel subscriptions or timers.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Side effects belong in <code>useEffect</code>, not directly in render.</li><li>The dependency array controls how often the effect re-runs.</li><li>Missing dependencies are a leading cause of stale-data bugs.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 5 of 8</div><h3>Lists, keys, and conditional rendering</h3>
+          <p>Rendering a dynamic list is one of the most common React patterns, and getting the <code>key</code> prop right is what lets React correctly track which item is which between renders.</p>
+          <div class="code">{items.length === 0
+  ? &lt;p&gt;No items yet.&lt;/p&gt;
+  : items.map(item =&gt; &lt;Row key={item.id} item={item} /&gt;)}</div>
+          <h4>Why keys must be stable</h4>
+          <p>A key must be a stable identifier drawn from the actual data, such as a database id, never the array index. If the list can be reordered, filtered, or have items removed, an index-based key can end up pointing at the wrong item after a re-render, causing input state or animations to attach to the wrong row.</p>
+          <h4>Conditional rendering patterns</h4>
+          <p>A ternary handles a simple either/or choice inline. <code>&amp;&amp;</code> is a compact way to render something only when a condition is true. For more complex branching, an early <code>return</code> at the top of the component keeps the main render logic readable.</p>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Key</dt><dd>A stable, unique identifier React uses to match list items correctly between renders.</dd><dt>Reconciliation</dt><dd>React's process of comparing the new render output to the previous one to decide what actually needs to change in the DOM.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Keys must be stable and drawn from data, never the array index.</li><li>Bad keys cause state and focus to attach to the wrong list item.</li><li>Prefer an early return for complex conditional branching.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 6 of 8</div><h3>Forms and controlled components</h3>
+          <p>A controlled input's displayed value always comes from React state, and every keystroke updates that state through an <code>onChange</code> handler, keeping the UI and the underlying data perfectly in sync.</p>
+          <div class="code">const [name, setName] = useState('');
+&lt;input value={name} onChange={e =&gt; setName(e.target.value)} /&gt;</div>
+          <h4>Submitting without a full page reload</h4>
+          <p>Calling <code>event.preventDefault()</code> inside a submit handler stops the browser's default full-page navigation, letting you read the already-current values from state instead of querying the DOM directly.</p>
+          <div class="code">function handleSubmit(e) {
+  e.preventDefault();
+  onAdd({ id: crypto.randomUUID(), name, active: true });
+  setName('');
+}</div>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Controlled component</dt><dd>A form element whose value is driven entirely by React state.</dd><dt><code>onChange</code></dt><dd>The event handler that fires on every keystroke or value change in a controlled input.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>A controlled input's value always comes from state.</li><li><code>preventDefault()</code> stops the default full-page form submission.</li><li>Reset form state after a successful submit.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 7 of 8</div><h3>Hooks glossary, from the video</h3>
+          <p>The video above (0:32-11:48) walks through every built-in hook. A custom hook — a function starting with <code>use</code> that packages reusable stateful logic — is often built on top of these.</p>
+          <div class="code">function useToggle(initial = false) {
+  const [on, setOn] = useState(initial);
+  const toggle = () =&gt; setOn(v =&gt; !v);
+  return [on, toggle];
+}</div>
+          <ul><li><strong>useReducer</strong> (2:14): manages complex state transitions with an action-based updater, an alternative to several related <code>useState</code> calls.</li><li><strong>useLayoutEffect</strong> (5:05): like <code>useEffect</code>, but fires synchronously before the browser paints, for measuring layout.</li><li><strong>useRef</strong> (6:07): holds a mutable value or a DOM node reference that does not trigger a re-render when changed.</li><li><strong>useMemo</strong> (7:41): caches an expensive calculated value between renders until its dependencies change.</li><li><strong>useCallback</strong> (8:18): caches a function reference so a child does not re-render just because a new function was created.</li><li><strong>useContext</strong> (8:53): reads a value shared from a provider higher in the tree, avoiding prop drilling through every level.</li><li><strong>useTransition</strong> (9:21): marks a state update as low-priority so urgent updates like typing stay responsive.</li><li><strong>useId</strong> (11:12): generates a stable unique id for linking a label to an input, safe for server-rendered HTML.</li></ul>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Custom hook</dt><dd>A function starting with <code>use</code> that packages reusable stateful logic across components.</dd><dt>Memoization</dt><dd>Caching a value or function so it is not recalculated unless its dependencies change.</dd><dt>Prop drilling</dt><dd>Passing a value through many layers of components that do not need it themselves, just to reach a deeply nested child.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>A custom hook is just a function that reuses stateful logic.</li><li><code>useMemo</code>/<code>useCallback</code> cache values and functions to avoid unnecessary work.</li><li><code>useContext</code> avoids prop drilling through many layers.</li></ul></div>
+        </article></div>
+        <div class="page"><article class="card lesson-page">
+          <div class="eyebrow-lesson">Lesson 8 of 8</div><h3>Next.js Server and Client Components</h3>
+          <p>In the Next.js App Router, every component is a Server Component by default: it renders on the server and sends only the resulting HTML to the browser, with no extra JavaScript shipped for it.</p>
+          <h4>Why the boundary exists</h4>
+          <p>Server Components cannot use browser-only APIs, event handlers, or hooks like <code>useState</code>, because they never run in the browser at all. Adding <code>"use client"</code> at the very top of a file opts that component (and everything it imports) into the client bundle, enabling interactivity.</p>
+          <div class="code">"use client";
+import { useState } from "react";
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  return &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;{count}&lt;/button&gt;;
+}</div>
+          <h4>Keep the boundary small</h4>
+          <p>Put <code>"use client"</code> on the smallest, most specific component that actually needs interactivity, rather than at the top of a whole page. This keeps as much of the tree as possible rendered on the server, which ships less JavaScript to the browser.</p>
+          <h4>Hydration</h4>
+          <p>Hydration is the process of attaching React's client-side behavior — event listeners, state — to HTML that was already rendered on the server, making previously static markup interactive.</p>
+          <div class="key-terms"><h4>Key terms</h4><dl><dt>Server Component</dt><dd>A component rendered on the server; the App Router default, cannot use client-only hooks or browser APIs.</dd><dt>Client Component</dt><dd>A component marked with <code>"use client"</code> that can use state, effects, and event handlers.</dd><dt>Hydration</dt><dd>Attaching client-side React behavior to HTML that was already rendered on the server.</dd></dl></div>
+          <div class="takeaways"><h4>Key takeaways</h4><ul><li>Components are Server Components by default in the App Router.</li><li><code>"use client"</code> opts a component into the interactive client bundle.</li><li>Keep the client boundary as small and specific as possible.</li></ul></div>
+        </article></div>
+      </div></div>
+      <div class="pager-nav"><button class="secondary" data-page-prev>&#8249; Prev</button><div class="pager-dots" data-page-dots></div><span class="pager-label" data-page-label></span><button class="secondary" data-page-next>Next &#8250;</button></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Extended knowledge check</h3><div class="quiz-progress"><span>Module quiz</span><span data-quiz-count="react">Question 1 of 8</span></div><div data-quiz="react" data-quiz-index="0"><p>What must wrap multiple sibling elements returned from a component?</p><button class="choice" data-answer="wrong">Nothing, siblings return fine</button><button class="choice" data-answer="correct">A single root element or fragment</button><button class="choice" data-answer="wrong">A <code>div</code> with <code>class="root"</code></button><div class="feedback"></div></div><div data-quiz="react" data-quiz-index="1" style="display:none"><p>Which direction does data flow through props?</p><button class="choice" data-answer="wrong">Upward, from child to parent</button><button class="choice" data-answer="correct">Downward, from parent to child</button><button class="choice" data-answer="wrong">Sideways between siblings</button><div class="feedback"></div></div><div data-quiz="react" data-quiz-index="2" style="display:none"><p>Which update avoids a stale state bug when the next count depends on the previous count?</p><button class="choice" data-answer="wrong"><code>setCount(count + 1)</code></button><button class="choice" data-answer="correct"><code>setCount(prev =&gt; prev + 1)</code></button><button class="choice" data-answer="wrong"><code>count++</code></button><div class="feedback"></div></div><div data-quiz="react" data-quiz-index="3" style="display:none"><p>What does the function returned from a <code>useEffect</code> callback do?</p><button class="choice" data-answer="wrong">Nothing, it is ignored</button><button class="choice" data-answer="correct">Cleans up before the next run or unmount</button><button class="choice" data-answer="wrong">Sets the initial state</button><div class="feedback"></div></div><div data-quiz="react" data-quiz-index="4" style="display:none"><p>Why should list keys come from stable data instead of the array index?</p><button class="choice" data-answer="correct">Index keys break when the list reorders or changes length</button><button class="choice" data-answer="wrong">Index keys are slower to compute</button><button class="choice" data-answer="wrong">React requires numeric keys</button><div class="feedback"></div></div><div data-quiz="react" data-quiz-index="5" style="display:none"><p>In a controlled input, what should update the displayed value?</p><button class="choice" data-answer="wrong">The DOM directly</button><button class="choice" data-answer="correct">State updated in <code>onChange</code></button><button class="choice" data-answer="wrong">A page refresh</button><div class="feedback"></div></div><div data-quiz="react" data-quiz-index="6" style="display:none"><p>Which hook caches an expensive calculated value between renders?</p><button class="choice" data-answer="wrong"><code>useEffect</code></button><button class="choice" data-answer="correct"><code>useMemo</code></button><button class="choice" data-answer="wrong"><code>useRef</code></button><div class="feedback"></div></div><div data-quiz="react" data-quiz-index="7" style="display:none"><p>What is required before a Next.js component can use <code>useState</code>?</p><button class="choice" data-answer="wrong">Nothing, all components support it</button><button class="choice" data-answer="correct">The file must start with <code>"use client"</code></button><button class="choice" data-answer="wrong">It must be renamed to <code>page.js</code></button><div class="feedback"></div></div><div class="quiz-score" data-quiz-score="react">Score: 0 / 8</div></div>  </section>
 
   <section id="debug" class="view">
     <div class="lesson-head"><div><div class="eyebrow">Module 05</div><h2>Debugging: Follow the evidence.</h2><p class="lead">Do not guess at a broken interface. Use the Console, Network tab, and the smallest relevant code snippet to make the failure specific.</p></div><div class="lesson-number">5 / 6</div></div>
-    <div class="grid three"><article class="card accent-red"><h3>1 · Console</h3><p>Read the exact error, file name, and line number.</p></article><article class="card accent-red"><h3>2 · Network</h3><p>Inspect URL, method, status, payload, and response.</p></article><article class="card accent-red"><h3>3 · Explain</h3><p>Give AI the failing function and exact error, not the whole project.</p></article></div>
-    <div class="grid two" style="margin-top:16px"><article class="card"><h3>Prompt architecture</h3><p>Give AI four constraints: <strong>context/framework</strong>, <strong>data model</strong>, <strong>action/state behavior</strong>, and <strong>layout constraints</strong>.</p><div class="code">Context: Next.js App Router + React
+    <div class="video-lesson" data-video="debug"><div class="video-frame" data-video-id="H0XScE08hy8"><img src="https://img.youtube.com/vi/H0XScE08hy8/hqdefault.jpg" alt="" loading="lazy"><span class="play-badge"><span>&#9654;</span></span></div><div class="video-meta"><span>Debugging JavaScript - Chrome DevTools 101 (7:28)</span><a href="https://www.youtube.com/watch?v=H0XScE08hy8" target="_blank" rel="noopener">Chrome for Developers on YouTube &#8599;</a></div></div>
+    <div class="video-chapters"><h4>What this video covers</h4><ul><li><span class="ts">1:32</span>Sources panel</li><li><span class="ts">1:50</span>JavaScript debugging</li><li><span class="ts">3:02</span>Event listener breakpoints</li><li><span class="ts">4:19</span>Step out</li><li><span class="ts">4:47</span>Line-of-code breakpoints</li></ul></div>
+    <div class="pager" data-pager="debug">
+      <div class="pager-viewport"><div class="pager-track" data-page-track>
+        <div class="page"><div class="grid three"><article class="card accent-red"><h3>1 · Console</h3><p>Read the exact error, file name, and line number.</p></article><article class="card accent-red"><h3>2 · Network</h3><p>Inspect URL, method, status, payload, and response.</p></article><article class="card accent-red"><h3>3 · Explain</h3><p>Give AI the failing function and exact error, not the whole project.</p></article></div></div>
+        <div class="page"><div class="grid two"><article class="card"><h3>Common error types</h3><ul><li><code>ReferenceError</code>: a variable was used before it was declared or does not exist.</li><li><code>TypeError</code>: an operation was performed on the wrong type, such as calling something that is not a function.</li><li><code>SyntaxError</code>: the code cannot be parsed at all, often a missing bracket or quote.</li></ul></article><article class="card"><h3>Reading the message</h3><div class="code">TypeError: Cannot read properties
+of undefined (reading 'name')</div><p class="small muted">This means the object itself was <code>undefined</code> before you tried to read <code>.name</code> from it. Trace back to where that value should have been set.</p></article></div></div>
+        <div class="page"><div class="grid two"><article class="card"><h3>Breakpoints and the Sources panel</h3><p>A breakpoint pauses execution on a specific line so you can inspect variables at that moment instead of guessing. A <strong>conditional breakpoint</strong> only pauses when an expression is true, which is faster than stepping through a loop by hand.</p><ul><li><strong>Step over:</strong> run the current line, then pause on the next.</li><li><strong>Step into:</strong> follow execution into a called function.</li><li><strong>Watch expression:</strong> track a variable's value as you step.</li></ul></article><article class="card"><h3>Reading a stack trace</h3><p>Read a stack trace from the top down: the top frame is where the error was thrown, and each frame below shows the calling function that led there. The file name and line number pinpoint the exact source location to open first.</p></article></div></div>
+        <div class="page"><div class="grid two"><article class="card"><h3>Prompt architecture</h3><p>Give AI four constraints: <strong>context/framework</strong>, <strong>data model</strong>, <strong>action/state behavior</strong>, and <strong>layout constraints</strong>.</p><div class="code">Context: Next.js App Router + React
   Data: { id, name, active }
   Action: update active immutably
-  Layout: responsive, max-width 600px</div></article><article class="card"><h3>CSS and React red flags</h3><ul><li>Arbitrary absolute positioning for normal layout.</li><li>Huge <code>z-index</code> values hiding a stacking problem.</li><li>State updates directly in the render body.</li><li>Array indexes used as keys for changing lists.</li></ul></article></div>
+  Layout: responsive, max-width 600px</div></article><article class="card"><h3>CSS and React red flags</h3><ul><li>Arbitrary absolute positioning for normal layout.</li><li>Huge <code>z-index</code> values hiding a stacking problem.</li><li>State updates directly in the render body.</li><li>Array indexes used as keys for changing lists.</li></ul></article></div></div>
+        <div class="page"><div class="grid two"><article class="card"><h3>Network waterfall basics</h3><p>The Network tab's waterfall shows when each request started, how long DNS/connect/waiting/download took, and which requests blocked others. A long "waiting" bar usually points to a slow server, not a slow browser.</p></article><article class="card"><h3>A first look at performance</h3><ul><li>The Performance tab records a timeline of scripting, rendering, and painting.</li><li>Long yellow "scripting" blocks usually mean an expensive function is blocking the main thread.</li><li>Frequent re-renders show up as repeated purple "rendering" blocks close together.</li></ul></article></div></div>
+        <div class="page"><div class="grid two"><article class="card"><h3>Common React pitfalls</h3><ul><li><strong>Infinite render loop:</strong> calling <code>setState</code> unconditionally during render, or omitting the <code>useEffect</code> dependency array when it updates state.</li><li><strong>Missing dependency:</strong> a <code>useEffect</code> that reads a prop or state value not listed in its dependency array can run with stale data.</li><li><strong>Object identity churn:</strong> creating a new object or array literal every render as a prop can cause unnecessary child re-renders.</li></ul></article><article class="card"><h3>A fix in practice</h3><div class="code">useEffect(() =&gt; {
+  fetchUser(userId).then(setUser);
+}, [userId]); // re-run only when userId changes</div></article></div></div>
+      </div></div>
+      <div class="pager-nav"><button class="secondary" data-page-prev>&#8249; Prev</button><div class="pager-dots" data-page-dots></div><span class="pager-label" data-page-label></span><button class="secondary" data-page-next>Next &#8250;</button></div>
+    </div>
     <div class="card" style="margin-top:16px"><h3>Review an AI snippet</h3><div class="code">items.forEach(item =&gt; item.name)
 setItems(items)
 
@@ -163,7 +834,22 @@ items.map((item, index) =&gt; &lt;Row key={index} item={item} /&gt;)</div><p>Ide
 
   <section id="capstone" class="view">
     <div class="lesson-head"><div><div class="eyebrow">Module 06</div><h2>Capstone: Build and teach back.</h2><p class="lead">Combine the month into a responsive task board. The goal is not just working code; it is a clear explanation of the data flow and your debugging decisions.</p></div><div class="lesson-number">6 / 6</div></div>
-    <div class="grid two"><article class="card accent-green"><h3>Build sequence</h3><ol><li>Sketch the component hierarchy.</li><li>Define the task object shape.</li><li>Add immutable add, toggle, and delete actions.</li><li>Derive filtered counts during render.</li><li>Use stable IDs for list keys.</li><li>Test responsive layout and all visible states.</li></ol></article><article class="card accent-blue"><h3>Completion checklist</h3><ul class="checklist"><li><input type="checkbox" data-progress>Semantic page structure</li><li><input type="checkbox" data-progress>Responsive two-column layout</li><li><input type="checkbox" data-progress>Immutable data demo</li><li><input type="checkbox" data-progress>React task board</li><li><input type="checkbox" data-progress>Reviewed and explained</li></ul></article></div>
+    <div class="video-lesson" data-video="capstone"><div class="video-frame" data-video-id="LJ8AaPcJL10"><img src="https://img.youtube.com/vi/LJ8AaPcJL10/hqdefault.jpg" alt="" loading="lazy"><span class="play-badge"><span>&#9654;</span></span></div><div class="video-meta"><span>Build a Todo List with React in 10 Minutes (9:16)</span><a href="https://www.youtube.com/watch?v=LJ8AaPcJL10" target="_blank" rel="noopener">Better React on YouTube &#8599;</a></div></div>
+    <div class="video-chapters"><h4>What this video builds</h4><p class="small muted" style="margin:0">A React + TypeScript to-do list scaffolded with <code>npx create-react-app todo-app --template typescript</code>: add, complete, and remove tasks, matching the capstone's add/toggle/delete pattern.</p></div>
+    <div class="pager" data-pager="capstone">
+      <div class="pager-viewport"><div class="pager-track" data-page-track>
+        <div class="page"><div class="grid two"><article class="card accent-green"><h3>Build sequence</h3><ol><li>Sketch the component hierarchy.</li><li>Define the task object shape.</li><li>Add immutable add, toggle, and delete actions.</li><li>Derive filtered counts during render.</li><li>Use stable IDs for list keys.</li><li>Test responsive layout and all visible states.</li></ol></article><article class="card accent-blue"><h3>Completion checklist</h3><ul class="checklist"><li><input type="checkbox" data-progress>Semantic page structure</li><li><input type="checkbox" data-progress>Responsive two-column layout</li><li><input type="checkbox" data-progress>Immutable data demo</li><li><input type="checkbox" data-progress>React task board</li><li><input type="checkbox" data-progress>Reviewed and explained</li></ul></article></div></div>
+        <div class="page"><div class="grid two"><article class="card"><h3>Example component hierarchy</h3><div class="tree">App
+├─ TaskBoard (owns tasks state)
+│  ├─ TaskForm (add task)
+│  ├─ TaskList
+│  │  └─ TaskItem × N (key = task.id)
+│  └─ TaskFilters (derived counts)</div></article><article class="card"><h3>Where each piece lives</h3><p>State lives as high as the components that need it. Props flow down to <code>TaskItem</code>; the toggle and delete callbacks flow back up to <code>TaskBoard</code>, which is the only place state actually changes.</p></article></div></div>
+        <div class="page"><div class="grid two"><article class="card"><h3>Code review checklist</h3><ul><li>Would a new teammate understand this in 30 seconds?</li><li>Do names describe what a value is, not how it is used?</li><li>Does each function do one clear thing?</li><li>Is state mutated anywhere it shouldn't be?</li><li>Are list keys stable and drawn from data?</li></ul></article><article class="card"><h3>Naming matters</h3><div class="compare"><div class="bad"><b>Unclear</b><div class="code">const d = items.filter(i =&gt; i.a);</div></div><div class="good"><b>Clear</b><div class="code">const activeTasks = tasks.filter(task =&gt; task.active);</div></div></div></article></div></div>
+        <div class="page"><div class="grid two"><article class="card"><h3>Final QA checklist</h3><ul><li>Tab through every interactive element with only the keyboard.</li><li>Test at 320px, 768px, and 1440px widths.</li><li>Confirm empty, loading, and error states all render something sensible.</li><li>Re-run the module quizzes you missed the first time.</li></ul></article><article class="card"><h3>Shipping it</h3><p>Deploying a small React or Next.js project usually means pushing to a Git repository and connecting a host that builds on every push. The build step catches type and syntax errors before real users see them.</p></article></div></div>
+      </div></div>
+      <div class="pager-nav"><button class="secondary" data-page-prev>&#8249; Prev</button><div class="pager-dots" data-page-dots></div><span class="pager-label" data-page-label></span><button class="secondary" data-page-next>Next &#8250;</button></div>
+    </div>
     <div class="card" style="margin-top:16px"><h3>Teach-back prompt</h3><p>Record a five-minute explanation: Where does data enter? Where does it change? Which components receive it? How would you diagnose a failed request or stale UI?</p><textarea id="teachback" rows="5" style="width:100%;padding:10px;border:1px solid var(--line);font:inherit" placeholder="Write your explanation here..."></textarea><button class="primary" style="margin-top:10px" data-save>Save progress</button><span class="muted small" id="saveStatus"></span></div>
   </section>
 
@@ -172,6 +858,12 @@ items.map((item, index) =&gt; &lt;Row key={index} item={item} /&gt;)</div><p>Ide
     <div class="grid three"><article class="card accent-blue"><h3>HTML</h3><p><strong>Element:</strong> a complete HTML unit. <strong>Attribute:</strong> extra configuration on an opening tag. <strong>Semantic HTML:</strong> markup that communicates purpose.</p><p><strong>Void element:</strong> an element with no closing tag, such as <code>br</code> or <code>img</code>.</p></article><article class="card accent-amber"><h3>CSS and JavaScript</h3><p><strong>Computed style:</strong> the final value the browser applies. <strong>Reference type:</strong> an array or object whose variable points to a value.</p><p><strong>Promise:</strong> a future success or failure. <strong>Immutable update:</strong> a new array or object instead of direct mutation.</p></article><article class="card accent-green"><h3>React and Next.js</h3><p><strong>Props:</strong> read-only values from a parent. <strong>State:</strong> changing component-owned data. <strong>Key:</strong> stable identity for a list item.</p><p><strong>Hydration:</strong> attaching client behavior to server-rendered HTML.</p></article></div>
     <div class="grid two" style="margin-top:16px"><article class="card"><h3>Spaced review routine</h3><ol><li>Review the previous lesson for 10 minutes.</li><li>Reproduce one prior task without notes each Monday.</li><li>Retest missed concepts after 1 day, 3 days, and 7 days.</li><li>Mark a term mastered only after two correct applications.</li></ol></article><article class="card"><h3>Contrast pairs</h3><ul><li>Tag versus element</li><li>Block versus inline</li><li>Content-box versus border-box</li><li>Props versus state</li><li>Mutation versus immutable update</li><li>Server Component versus Client Component</li></ul></article></div>
     <div class="card" style="margin-top:16px"><h3>Month-end standard</h3><ul class="checklist"><li><input type="checkbox" data-progress>Explain why <code>border-box</code> matters.</li><li><input type="checkbox" data-progress>Build a responsive layout without relying on AI.</li><li><input type="checkbox" data-progress>Diagnose a failed request in DevTools.</li><li><input type="checkbox" data-progress>Explain a missing <code>use client</code> boundary.</li></ul></div>
+  </section>
+
+  <section id="certificate" class="view">
+    <div class="lesson-head"><div><div class="eyebrow">Course completion</div><h2>Certificate of completion.</h2><p class="lead">Finish every module quiz and the capstone checklist to unlock your certificate.</p></div></div>
+    <div class="card" id="certificateLocked"><h3>Not unlocked yet</h3><p class="muted">Progress so far: <strong id="certificateProgress">0 / 4 quizzes passed</strong>, capstone checklist <strong id="certificateChecklist">0%</strong> complete.</p><p>Score full marks on all four module quizzes (HTML, CSS, JavaScript, and React) and check off every capstone item to unlock your certificate.</p></div>
+    <div class="certificate" id="certificateUnlocked" style="display:none"><div class="eyebrow">Self-Study Program</div><h2>Certificate of Completion</h2><p>This certifies that</p><input type="text" id="certificateName" placeholder="Type your name"><p>has completed <strong>Month 1: UI, Modern CSS & React Foundations</strong>, covering HTML, CSS, JavaScript, React, Next.js, and applied debugging.</p><p class="muted small" id="certificateDate"></p><button class="primary" id="printCertificate" style="margin-top:14px">Print certificate</button></div>
   </section>
 </main>
 </div>
@@ -183,14 +875,184 @@ function showView(id) { views.forEach(view => view.classList.toggle('active', vi
 navButtons.forEach(button => button.addEventListener('click', () => showView(button.dataset.view)));
 document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => showView(button.dataset.go)));
 function save() { localStorage.setItem('month1-learning', JSON.stringify(state)); updateProgress(); }
-function updateProgress() { const checks = document.querySelectorAll('[data-progress]'); const completed = [...checks].filter(item => item.checked).length; const quiz = document.querySelectorAll('.choice.correct.selected').length; const total = checks.length + 5; const value = Math.round(((completed + quiz) / total) * 100); document.getElementById('progressText').textContent = `${value}%`; document.getElementById('progressBar').style.width = `${value}%`; }
-document.querySelectorAll('.choice').forEach(choice => choice.addEventListener('click', () => { const group = choice.parentElement; group.querySelectorAll('.choice').forEach(item => item.classList.remove('correct','wrong','selected')); const feedback = group.querySelector('.feedback'); choice.classList.add(choice.dataset.answer, 'selected'); feedback.textContent = choice.dataset.answer === 'correct' ? 'Correct. Explain why this is the best choice.' : 'Not quite. Review the visual model, then try again.'; updateProgress(); }));
+const quizState = state.quiz || (state.quiz = {});
+const quizModules = ['html','css','javascript','react'];
+function quizGroups(moduleId) { return [...document.querySelectorAll(`[data-quiz="${moduleId}"]`)]; }
+function initQuiz(moduleId) {
+  const groups = quizGroups(moduleId);
+  if (!groups.length) return;
+  const total = groups.length;
+  const scoreEl = document.querySelector(`[data-quiz-score="${moduleId}"]`);
+  const countEl = document.querySelector(`[data-quiz-count="${moduleId}"]`);
+  const saved = quizState[moduleId] || { answers: [], index: 0 };
+  quizState[moduleId] = saved;
+  function render() {
+    groups.forEach((group, i) => { group.style.display = i === saved.index ? '' : 'none'; });
+    if (countEl) countEl.textContent = `Question ${Math.min(saved.index + 1, total)} of ${total}`;
+    const correctCount = saved.answers.filter(Boolean).length;
+    if (scoreEl) {
+      let label = `Score: ${correctCount} / ${total}`;
+      if (saved.index >= total) label += correctCount === total ? ' \u2014 Passed! Nice work.' : ' \u2014 Retake to pass.';
+      scoreEl.textContent = label;
+      let retake = scoreEl.parentElement.querySelector('[data-retake]');
+      if (saved.index >= total && correctCount < total) {
+        if (!retake) { retake = document.createElement('button'); retake.className = 'secondary small'; retake.textContent = 'Retake quiz'; retake.dataset.retake = moduleId; retake.style.marginLeft = '10px'; scoreEl.after(retake); retake.addEventListener('click', () => { saved.answers = []; saved.index = 0; groups.forEach(g => { delete g.dataset.answered; g.querySelectorAll('.choice').forEach(c => c.classList.remove('correct','wrong','selected')); const fb = g.querySelector('.feedback'); if (fb) fb.textContent = ''; }); render(); save(); }); }
+      } else if (retake) { retake.remove(); }
+    }
+  }
+  groups.forEach((group, i) => {
+    group.querySelectorAll('.choice').forEach(choice => choice.addEventListener('click', () => {
+      if (group.dataset.answered === 'true') return;
+      group.dataset.answered = 'true';
+      group.querySelectorAll('.choice').forEach(item => item.classList.remove('correct', 'wrong', 'selected'));
+      const feedback = group.querySelector('.feedback');
+      choice.classList.add(choice.dataset.answer, 'selected');
+      feedback.textContent = choice.dataset.answer === 'correct' ? 'Correct.' : 'Not quite. Review the material above.';
+      saved.answers[i] = choice.dataset.answer === 'correct';
+      save();
+      setTimeout(() => { saved.index = i + 1; render(); save(); }, 900);
+    }));
+  });
+  render();
+}
+quizModules.forEach(initQuiz);
+function updateProgress() {
+  const checks = document.querySelectorAll('[data-progress]');
+  const completed = [...checks].filter(item => item.checked).length;
+  let quizCorrect = 0, quizTotal = 0;
+  quizModules.forEach(moduleId => { const groups = quizGroups(moduleId); quizTotal += groups.length; const saved = quizState[moduleId]; if (saved) quizCorrect += saved.answers.filter(Boolean).length; });
+  const total = checks.length + quizTotal;
+  const value = total ? Math.round(((completed + quizCorrect) / total) * 100) : 0;
+  document.getElementById('progressText').textContent = `${value}%`;
+  document.getElementById('progressBar').style.width = `${value}%`;
+  updateCertificate();
+  updateNavLocks();
+  updateSyllabus();
+}
+const moduleOrder = ['html', 'css', 'javascript', 'react', 'debug', 'capstone'];
+function isQuizModulePassed(id) { const groups = quizGroups(id); const saved = quizState[id]; return Boolean(saved && groups.length && saved.answers.length === groups.length && saved.answers.every(Boolean)); }
+function isCapstoneChecklistComplete() { const checks = document.querySelectorAll('#capstone [data-progress]'); return checks.length > 0 && [...checks].every(item => item.checked); }
+function isModuleComplete(id) { if (id === 'debug') return Boolean(state.debugPassed); if (id === 'capstone') return isCapstoneChecklistComplete(); return isQuizModulePassed(id); }
+function isModuleUnlocked(id) { const i = moduleOrder.indexOf(id); if (i <= 0) return true; return isModuleComplete(moduleOrder[i - 1]); }
+function updateNavLocks() {
+  navButtons.forEach(button => {
+    const id = button.dataset.view;
+    if (!moduleOrder.includes(id)) return;
+    const unlocked = isModuleUnlocked(id);
+    const complete = isModuleComplete(id);
+    button.classList.toggle('locked', !unlocked);
+    const statusEl = button.querySelector('[data-status]');
+    if (statusEl) statusEl.textContent = !unlocked ? '\u{1F512}' : complete ? '\u2713' : '';
+  });
+}
+function updateSyllabus() {
+  const nextId = moduleOrder.find(id => !isModuleComplete(id)) || moduleOrder[moduleOrder.length - 1];
+  moduleOrder.forEach(id => {
+    const li = document.querySelector(`[data-syllabus="${id}"]`);
+    if (!li) return;
+    const unlocked = isModuleUnlocked(id);
+    const complete = isModuleComplete(id);
+    li.classList.toggle('locked', !unlocked);
+    li.classList.toggle('done', complete);
+    li.classList.toggle('current', unlocked && !complete);
+    const tag = li.querySelector('[data-syllabus-tag]');
+    if (tag) tag.textContent = complete ? 'Complete' : unlocked ? 'In progress' : 'Locked';
+  });
+  const doneCount = moduleOrder.filter(isModuleComplete).length;
+  const tally = document.getElementById('courseTally');
+  if (tally) tally.textContent = `${doneCount} / ${moduleOrder.length} modules complete`;
+  const cta = document.getElementById('courseCta');
+  const ctaHeading = document.getElementById('courseCtaHeading');
+  const ctaText = document.getElementById('courseCtaText');
+  if (cta) {
+    if (doneCount === moduleOrder.length) {
+      cta.textContent = 'View your certificate';
+      cta.dataset.go = 'certificate';
+      if (ctaHeading) ctaHeading.textContent = 'Course complete!';
+      if (ctaText) ctaText.textContent = 'You finished every module. Visit the certificate page to add your name and print it.';
+    } else if (doneCount === 0) {
+      cta.textContent = 'Start the course';
+      cta.dataset.go = 'html';
+      if (ctaHeading) ctaHeading.textContent = 'Ready to start?';
+      if (ctaText) ctaText.textContent = 'Complete one module in a focused session. Revisit any check you miss before moving forward.';
+    } else {
+      cta.textContent = `Continue: Module ${moduleOrder.indexOf(nextId) + 1}`;
+      cta.dataset.go = nextId;
+      if (ctaHeading) ctaHeading.textContent = 'Welcome back.';
+      if (ctaText) ctaText.textContent = `You are ${doneCount} of ${moduleOrder.length} modules in. Pick up where you left off.`;
+    }
+  }
+}
+function updateCertificate() {
+  const passed = quizModules.filter(moduleId => { const saved = quizState[moduleId]; const groups = quizGroups(moduleId); return saved && saved.answers.length === groups.length && groups.length > 0 && saved.answers.every(Boolean); }).length;
+  const checks = document.querySelectorAll('[data-progress]');
+  const checklistPct = checks.length ? Math.round(([...checks].filter(item => item.checked).length / checks.length) * 100) : 0;
+  const progressEl = document.getElementById('certificateProgress');
+  const checklistEl = document.getElementById('certificateChecklist');
+  if (progressEl) progressEl.textContent = `${passed} / 4 quizzes passed`;
+  if (checklistEl) checklistEl.textContent = `${checklistPct}%`;
+  const unlocked = passed === quizModules.length && checklistPct === 100;
+  const lockedView = document.getElementById('certificateLocked');
+  const unlockedView = document.getElementById('certificateUnlocked');
+  if (lockedView) lockedView.style.display = unlocked ? 'none' : '';
+  if (unlockedView) unlockedView.style.display = unlocked ? '' : 'none';
+  const dateEl = document.getElementById('certificateDate');
+  if (unlocked && dateEl && !state.certificateDate) { state.certificateDate = new Date().toLocaleDateString(); }
+  if (dateEl && state.certificateDate) dateEl.textContent = `Completed ${state.certificateDate}`;
+}
 document.querySelectorAll('[data-progress]').forEach((item, index) => { item.checked = Boolean(state[`check${index}`]); item.addEventListener('change', () => { state[`check${index}`] = item.checked; save(); }); });
 const boxToggle = document.getElementById('boxToggle'); let borderBox = false; boxToggle.addEventListener('click', () => { borderBox = !borderBox; boxToggle.textContent = borderBox ? 'Switch to content-box' : 'Switch to border-box'; document.getElementById('boxMessage').textContent = borderBox ? 'border-box: padding and border stay inside the declared width.' : 'content-box: padding and border add to the declared width.'; document.getElementById('boxContent').textContent = borderBox ? 'border-box: 240px total' : 'content: 240px'; });
-const items = [{name:'Study HTML',active:true},{name:'Practice CSS',active:false},{name:'Build React',active:true}]; const arrayOperation = document.getElementById('arrayOperation'); function updateArray() { const op=arrayOperation.value; let result=items, code='items'; if(op==='filter'){result=items.filter(item=>item.active);code='items.filter(item => item.active)';} if(op==='map'){result=items.map(item=>item.name);code='items.map(item => item.name)';} if(op==='chain'){result=items.filter(item=>item.active).map(item=>item.name);code='items.filter(test).map(transform)';} document.getElementById('arrayOutput').textContent=JSON.stringify(result,null,2); document.getElementById('arrayCode').textContent=code; } arrayOperation.addEventListener('change',updateArray); updateArray();
-document.getElementById('debugSubmit').addEventListener('click', () => { const answer=document.getElementById('debugAnswer').value.toLowerCase(); const feedback=document.getElementById('debugFeedback'); const found=['foreach','mutation','mutat','index','key','undefined'].some(term=>answer.includes(term)); feedback.textContent=found ? 'Good diagnosis. Now find two more issues.' : 'Look for forEach return values, direct mutation, and index keys.'; });
+const animBox = document.getElementById('animBox'); const animToggle = document.getElementById('animToggle'); if (animBox && animToggle) { animToggle.addEventListener('click', () => animBox.classList.toggle('playing')); }
+document.querySelectorAll('.pager').forEach(pager => {
+  const viewport = pager.querySelector('.pager-viewport');
+  const track = pager.querySelector('[data-page-track]');
+  const pages = [...track.children];
+  const prevBtn = pager.querySelector('[data-page-prev]');
+  const nextBtn = pager.querySelector('[data-page-next]');
+  const dotsWrap = pager.querySelector('[data-page-dots]');
+  const label = pager.querySelector('[data-page-label]');
+  let index = 0;
+  pages.forEach((_, i) => { const dot = document.createElement('button'); dot.type = 'button'; dot.setAttribute('aria-label', `Page ${i + 1}`); dot.addEventListener('click', () => { index = i; render(); }); dotsWrap.appendChild(dot); });
+  const dots = [...dotsWrap.children];
+  function resizeViewport() { viewport.style.height = `${pages[index].getBoundingClientRect().height}px`; }
+  function render() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    resizeViewport();
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    if (label) label.textContent = `Page ${index + 1} of ${pages.length}`;
+    if (prevBtn) prevBtn.disabled = index === 0;
+    if (nextBtn) nextBtn.disabled = index === pages.length - 1;
+  }
+  if (prevBtn) prevBtn.addEventListener('click', () => { if (index > 0) { index--; render(); } });
+  if (nextBtn) nextBtn.addEventListener('click', () => { if (index < pages.length - 1) { index++; render(); } });
+  pager.tabIndex = 0;
+  pager.addEventListener('keydown', event => { if (event.key === 'ArrowLeft' && index > 0) { index--; render(); } if (event.key === 'ArrowRight' && index < pages.length - 1) { index++; render(); } });
+  let touchStartX = null;
+  track.addEventListener('touchstart', event => { touchStartX = event.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', event => {
+    if (touchStartX === null) return;
+    const deltaX = event.changedTouches[0].clientX - touchStartX;
+    if (deltaX < -40 && index < pages.length - 1) { index++; render(); }
+    else if (deltaX > 40 && index > 0) { index--; render(); }
+    touchStartX = null;
+  });
+  window.addEventListener('resize', resizeViewport);
+  render();
+});
+document.getElementById('debugSubmit').addEventListener('click', () => { const answer=document.getElementById('debugAnswer').value.toLowerCase(); const feedback=document.getElementById('debugFeedback'); const found=['foreach','mutation','mutat','index','key','undefined'].some(term=>answer.includes(term)); feedback.textContent=found ? 'Good diagnosis. Now find two more issues.' : 'Look for forEach return values, direct mutation, and index keys.'; if (found) { state.debugPassed = true; save(); } });
 document.querySelector('[data-save]').addEventListener('click', () => { state.teachback=document.getElementById('teachback').value; save(); document.getElementById('saveStatus').textContent=' Saved.'; });
-if(state.teachback) document.getElementById('teachback').value=state.teachback; updateProgress();
+if(state.teachback) document.getElementById('teachback').value=state.teachback;
+const certNameInput = document.getElementById('certificateName');
+if (certNameInput) { certNameInput.value = state.certificateName || ''; certNameInput.addEventListener('input', () => { state.certificateName = certNameInput.value; save(); }); }
+const printCertBtn = document.getElementById('printCertificate');
+if (printCertBtn) printCertBtn.addEventListener('click', () => window.print());
+document.querySelectorAll('.video-frame').forEach(frame => {
+  frame.addEventListener('click', () => {
+    const id = frame.dataset.videoId;
+    frame.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" title="Video lesson" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+  }, { once: true });
+});
+updateProgress();
 </script>
 </body>
 </html>
