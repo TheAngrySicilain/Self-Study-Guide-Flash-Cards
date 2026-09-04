@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Month 1 Practice Worksheet</title>
+<style>
+  @page { size: letter; margin: 0.5in; }
+  :root { --navy: #263f5b; --ink: #1f2933; --muted: #52606d; --line: #b7c2cc; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink); background: #eef1f4; font-family: Cambria, Georgia, serif; }
+  .page { width: 7.5in; min-height: 10in; margin: 18px auto; padding: 0.22in; background: white; page-break-after: always; }
+  header { padding-bottom: 0.15in; border-bottom: 3px solid var(--navy); }
+  .eyebrow { color: var(--muted); font: 700 10px Arial, sans-serif; letter-spacing: 1.4px; text-transform: uppercase; }
+  h1 { margin: 0.06in 0; color: var(--navy); font-size: 27px; }
+  h2 { margin: 0.18in 0 0.12in; color: var(--navy); font-size: 19px; }
+  p { font-size: 12px; line-height: 1.4; }
+  .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2in; margin-top: 0.18in; font: 11px Arial, sans-serif; }
+  .line { display: inline-block; width: 2.3in; border-bottom: 1px solid var(--muted); }
+  .directions { margin: 0.18in 0; padding: 0.12in 0.15in; border-left: 4px solid var(--navy); background: #f4f6f8; }
+  .question { margin: 0.16in 0; padding-bottom: 0.12in; border-bottom: 1px solid var(--line); break-inside: avoid; }
+  .question h3 { margin: 0; font-size: 13px; line-height: 1.35; }
+  .answer-lines { height: 0.62in; margin-top: 0.08in; background: repeating-linear-gradient(to bottom, transparent 0, transparent 0.2in, #aeb9c3 0.205in, transparent 0.21in); }
+  .answer-lines.tall { height: 0.95in; }
+  .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 0.12in; margin-top: 0.2in; }
+  .check { min-height: 0.48in; padding: 0.1in; border: 1px solid var(--line); font-size: 11px; }
+  .footer { margin-top: 0.2in; color: var(--muted); font: 9px Arial, sans-serif; text-align: right; }
+  @media print { body { background: white; } .page { margin: 0; } }
+</style>
+</head>
+<body>
+<section class="page">
+<header><div class="eyebrow">Month 1 active recall</div><h1>Practice Worksheet</h1><p>Answer from memory before consulting the flash cards. Use code examples where requested.</p><div class="meta"><span>Name: <span class="line"></span></span><span>Date: <span class="line"></span></span></div></header>
+<div class="directions"><strong>Directions:</strong> Write the answer in your own words. After checking your work, mark each item as <strong>New</strong>, <strong>Review</strong>, or <strong>Mastered</strong>.</div>
+<h2>HTML Foundations</h2>
+<div class="question"><h3>1. Draw the basic HTML5 document structure and label the purpose of <code>head</code> and <code>body</code>.</h3><div class="answer-lines tall"></div></div>
+<div class="question"><h3>2. What is semantic HTML, and how does it support assistive technology?</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>3. Explain the difference between a form's <code>action</code> and <code>method</code> attributes.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>4. Write a labeled required email input and explain how the label connects to it.</h3><div class="answer-lines tall"></div></div>
+<div class="footer">Month 1 Practice Worksheet | Page 1</div>
+</section>
+<section class="page">
+<header><div class="eyebrow">Set 2</div><h1>CSS Foundations</h1><p>Use diagrams when they make the relationship easier to see.</p></header>
+<div class="question"><h3>5. Draw and label the four layers of the CSS box model.</h3><div class="answer-lines tall"></div></div>
+<div class="question"><h3>6. Explain why <code>box-sizing: border-box</code> is useful on modern websites.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>7. Draw the main axis and cross axis for <code>flex-direction: row</code>. Where do <code>justify-content</code> and <code>align-items</code> operate?</h3><div class="answer-lines tall"></div></div>
+<div class="question"><h3>8. Rewrite a fixed-width card so it can fit a 320px mobile viewport.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>9. What does a media query do? Write one that changes a layout below 768px.</h3><div class="answer-lines tall"></div></div>
+<div class="footer">Month 1 Practice Worksheet | Page 2</div>
+</section>
+<section class="page">
+<header><div class="eyebrow">Set 3</div><h1>JavaScript Data Flow</h1><p>Focus on what each operation returns and whether it mutates the original value.</p></header>
+<div class="question"><h3>10. Explain primitive versus reference values with one object example.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>11. Write a <code>map</code> expression that changes an array of objects into an array of names.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>12. Write a <code>filter</code> expression that keeps only active items.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>13. Show an immutable way to append an item to an existing array.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>14. What is a shallow copy? What nested data can it still share?</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>15. Why is using <code>forEach</code> when you need a new array a mistake?</h3><div class="answer-lines"></div></div>
+<div class="footer">Month 1 Practice Worksheet | Page 3</div>
+</section>
+<section class="page">
+<header><div class="eyebrow">Set 4</div><h1>Async JavaScript and Network Debugging</h1><p>Trace the request from the browser to the data displayed on screen.</p></header>
+<div class="question"><h3>16. Draw the <code>fetch</code> lifecycle from pending Promise to parsed JSON.</h3><div class="answer-lines tall"></div></div>
+<div class="question"><h3>17. Why must you check <code>response.ok</code> manually for HTTP errors?</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>18. List five details you would record while inspecting a failed request in DevTools.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>19. Write the four visible states a data-fetching interface should handle.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>20. Correct this bug: <code>const data = fetch('/api/items');</code></h3><div class="answer-lines"></div></div>
+<div class="footer">Month 1 Practice Worksheet | Page 4</div>
+</section>
+<section class="page">
+<header><div class="eyebrow">Set 5</div><h1>React and Next.js Architecture</h1><p>Explain the direction of data and the reason behind each state decision.</p></header>
+<div class="question"><h3>21. Draw unidirectional data flow between a parent component and a child component.</h3><div class="answer-lines tall"></div></div>
+<div class="question"><h3>22. When should a React state update use an updater function?</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>23. Why should derived values usually not be stored in separate state variables?</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>24. Why do list items need stable unique keys? Why can an array index be risky?</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>25. What can a Server Component not use? How does <code>use client</code> change the boundary?</h3><div class="answer-lines tall"></div></div>
+<div class="footer">Month 1 Practice Worksheet | Page 5</div>
+</section>
+<section class="page">
+<header><div class="eyebrow">Set 6</div><h1>Review, Debugging, and Self-Assessment</h1><p>Use precise evidence before asking an AI assistant for help.</p></header>
+<div class="question"><h3>26. Write a four-part AI prompt: context, data model, action/state, and layout constraints.</h3><div class="answer-lines tall"></div></div>
+<div class="question"><h3>27. List the three steps in systematic error triage.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>28. Name three red flags you would look for in AI-generated React or CSS.</h3><div class="answer-lines"></div></div>
+<div class="question"><h3>29. What evidence will you save each day and each Friday?</h3><div class="answer-lines"></div></div>
+<h2>Confidence Check</h2><div class="checklist"><div class="check">HTML: New / Review / Mastered</div><div class="check">CSS: New / Review / Mastered</div><div class="check">JavaScript: New / Review / Mastered</div><div class="check">React: New / Review / Mastered</div><div class="check">Debugging: New / Review / Mastered</div><div class="check">AI review: New / Review / Mastered</div></div>
+<div class="footer">Month 1 Practice Worksheet | Page 6</div>
+</section>
+</body>
+</html>

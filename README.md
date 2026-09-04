@@ -14,6 +14,8 @@ The set is designed for active recall and visual learning. It covers HTML founda
 - `Month_1_Visual_Summary.pdf` - Ready-to-print visual summary PDF.
 - `Month_1_Visual_Study_Guide.html` - Editable five-page visual companion to the full study guide.
 - `Month_1_Visual_Study_Guide.pdf` - Ready-to-print visual study guide PDF.
+- `Month_1_Practice_Worksheet.html` - Editable active-recall worksheet with writing space.
+- `Month_1_Practice_Worksheet.pdf` - Ready-to-print practice worksheet PDF.
 
 ## Flash-Card Format
 
@@ -38,6 +40,8 @@ Each landscape letter page contains two 5 x 3 inch card pairs:
 For the visual references, print `Month_1_Visual_Summary.pdf` or `Month_1_Visual_Study_Guide.pdf` in landscape at 100% scale.
 
 The visual study guide presents the complete month as a roadmap, then explains the box model, Flexbox, data transformations, React data flow, request debugging, AI code review, spaced review, and the month-end assessment using diagrams and structured panels.
+
+The practice worksheet is designed to be completed before reviewing the flash-card answers. It includes 29 prompts, code-writing questions, diagram prompts, and a confidence tracker.
 
 ## Study Routine
 
