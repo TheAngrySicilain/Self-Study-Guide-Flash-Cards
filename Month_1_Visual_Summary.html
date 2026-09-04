@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Month 1 Visual Summary</title>
+<style>
+  @page { size: letter landscape; margin: 0.35in; }
+  * { box-sizing: border-box; }
+  :root { --ink: #17212b; --muted: #586775; --teal: #0e7490; --amber: #b45309; --green: #166534; --line: #b8c4ce; }
+  body { margin: 0; color: var(--ink); background: #eef2f5; font-family: Arial, sans-serif; }
+  .instructions { max-width: 780px; margin: 22px auto; padding: 16px 20px; background: white; border: 1px solid var(--line); }
+  .instructions h1 { margin: 0 0 5px; font-size: 20px; }
+  .instructions p { margin: 4px 0; color: var(--muted); font-size: 12px; }
+  .page { width: 10.3in; min-height: 7.5in; margin: 18px auto; padding: 0.15in; background: white; page-break-after: always; }
+  h1 { margin: 0 0 0.12in; font-size: 25px; }
+  .subtitle { margin: -0.08in 0 0.16in; color: var(--muted); font-size: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 0.14in; height: 6.55in; }
+  .panel { padding: 0.16in; border: 1.5px solid var(--line); border-top: 0.12in solid var(--teal); background: #f7fbfc; }
+  .panel:nth-child(2) { border-top-color: var(--amber); background: #fffaf4; }
+  .panel:nth-child(3) { border-top-color: var(--green); background: #f6fbf7; }
+  .panel:nth-child(4) { border-top-color: #7c3aed; background: #faf8ff; }
+  .panel:nth-child(5) { border-top-color: #be123c; background: #fff8fa; }
+  .panel:nth-child(6) { border-top-color: #475569; background: #f8fafc; }
+  h2 { margin: 0 0 0.12in; font-size: 16px; }
+  h3 { margin: 0.1in 0 0.04in; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  p, li { font-size: 11px; line-height: 1.35; }
+  ul { margin: 0; padding-left: 0.18in; }
+  .tree, .flow { display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 0.12in; }
+  .node { width: 85%; padding: 7px 5px; border: 1px solid currentColor; text-align: center; font-weight: 700; font-size: 11px; background: white; }
+  .arrow { color: var(--muted); font-size: 16px; line-height: 0.8; }
+  .box-model { width: 92%; margin: 0.12in auto; padding: 9px; border: 2px solid #b45309; background: #fef3c7; text-align: center; font-size: 11px; }
+  .box-model .padding { padding: 8px; border: 2px solid #f59e0b; background: #fffbeb; }
+  .box-model .border { padding: 8px; border: 2px solid #92400e; background: white; }
+  .box-model .content { padding: 8px; background: #dbeafe; }
+  .axis { position: relative; height: 1.35in; margin: 0.12in auto; width: 80%; border-left: 2px solid var(--green); border-bottom: 2px solid var(--green); }
+  .axis::after { content: "main axis ->"; position: absolute; right: 0; bottom: -0.22in; color: var(--green); font-size: 11px; font-weight: 700; }
+  .axis::before { content: "cross axis"; position: absolute; left: -0.5in; top: 0; transform: rotate(-90deg); color: var(--green); font-size: 11px; font-weight: 700; }
+  code { display: block; margin-top: 0.1in; padding: 8px; background: #17212b; color: #e2f3f6; font: 11px/1.4 Consolas, monospace; white-space: pre-wrap; }
+  @media print { body { background: white; } .instructions { display: none; } .page { margin: 0; } }
+</style>
+</head>
+<body>
+<section class="instructions">
+  <h1>Month 1 Visual Summary</h1>
+  <p>Open and print at 100% / Actual Size in landscape. This is a one-page reference for the flash-card set.</p>
+</section>
+<main class="page">
+  <h1>Month 1: UI, CSS, JavaScript & React</h1>
+  <p class="subtitle">Use this sheet to see the relationships before testing yourself with the cards.</p>
+  <section class="grid">
+    <article class="panel">
+      <h2>HTML Page Structure</h2>
+      <div class="tree">
+        <div class="node">html<br><small>root</small></div><div class="arrow">↓</div>
+        <div class="node">head<br><small>metadata, title, CSS link</small></div><div class="arrow">↓</div>
+        <div class="node">body<br><small>visible page content</small></div>
+      </div>
+      <code>&lt;header&gt; &lt;nav&gt; &lt;main&gt; &lt;footer&gt;</code>
+    </article>
+    <article class="panel">
+      <h2>CSS Box Model</h2>
+      <div class="box-model">margin
+        <div class="padding">border
+          <div class="border">padding
+            <div class="content">content</div>
+          </div>
+        </div>
+      </div>
+      <p><strong>border-box</strong> keeps padding and borders inside the declared size.</p>
+      <code>* { box-sizing: border-box; }</code>
+    </article>
+    <article class="panel">
+      <h2>Flexbox Axes</h2>
+      <div class="axis"></div>
+      <ul><li><strong>justify-content:</strong> main axis</li><li><strong>align-items:</strong> cross axis</li><li><strong>flex-direction:</strong> chooses the main axis</li></ul>
+    </article>
+    <article class="panel">
+      <h2>JavaScript Data Flow</h2>
+      <div class="flow">
+        <div class="node">original data</div><div class="arrow">↓</div>
+        <div class="node">filter<br><small>keep matching items</small></div><div class="arrow">↓</div>
+        <div class="node">map<br><small>transform each item</small></div><div class="arrow">↓</div>
+        <div class="node">new display data</div>
+      </div>
+      <code>items.filter(test).map(transform)</code>
+    </article>
+    <article class="panel">
+      <h2>fetch Request Flow</h2>
+      <div class="flow">
+        <div class="node">pending Promise</div><div class="arrow">↓</div>
+        <div class="node">Response</div><div class="arrow">↓</div>
+        <div class="node">check response.ok</div><div class="arrow">↓</div>
+        <div class="node">await response.json()</div>
+      </div>
+      <p>HTTP 404 or 500 usually requires a manual <strong>response.ok</strong> check.</p>
+    </article>
+    <article class="panel">
+      <h2>React Data Flow</h2>
+      <div class="flow">
+        <div class="node">parent state</div><div class="arrow">↓ props</div>
+        <div class="node">child UI</div><div class="arrow">↑ callback</div>
+        <div class="node">state update</div>
+      </div>
+      <code>setCount(prev => prev + 1)</code>
+      <p>Use stable keys and immutable updates.</p>
+    </article>
+  </section>
+</main>
+</body>
+</html>
