@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Month 1 Interactive Learning Lab</title>
+<style>
+:root { --ink:#1f2933; --muted:#617181; --navy:#263f5b; --blue:#0e7490; --amber:#b45309; --green:#166534; --red:#a33a3a; --line:#c9d2da; --wash:#f4f7f9; --white:#fff; }
+* { box-sizing:border-box; }
+body { margin:0; color:var(--ink); background:#eef2f5; font-family:Cambria, Georgia, serif; }
+button, input, select { font:inherit; }
+button { cursor:pointer; }
+.app { min-height:100vh; display:grid; grid-template-columns:260px 1fr; }
+.sidebar { padding:28px 20px; color:#eef4f8; background:var(--navy); }
+.brand { padding-bottom:22px; border-bottom:1px solid #71859a; }
+.brand small { display:block; color:#b9c9d6; font:700 10px Arial,sans-serif; letter-spacing:1.4px; text-transform:uppercase; }
+.brand h1 { margin:8px 0 0; font-size:24px; line-height:1.1; }
+.progress { margin:22px 0; padding:14px; background:#1e344c; border:1px solid #526b83; }
+.progress-label { display:flex; justify-content:space-between; color:#c9d7e2; font:11px Arial,sans-serif; }
+.progress-bar { height:7px; margin-top:9px; background:#102438; overflow:hidden; }
+.progress-bar span { display:block; width:0; height:100%; background:#9fc5d1; transition:width .25s; }
+.nav { display:grid; gap:6px; }
+.nav button { padding:11px 12px; color:#dce8ef; background:transparent; border:1px solid transparent; text-align:left; }
+.nav button:hover, .nav button.active { color:white; background:#35536d; border-color:#7892a8; }
+.nav button span { display:block; color:#9db2c2; font:10px Arial,sans-serif; margin-top:3px; }
+.main { max-width:1200px; width:100%; margin:0 auto; padding:34px 42px 60px; }
+.topbar { display:flex; justify-content:space-between; gap:20px; align-items:start; margin-bottom:26px; }
+.eyebrow { color:var(--blue); font:700 11px Arial,sans-serif; letter-spacing:1.3px; text-transform:uppercase; }
+h2 { margin:7px 0; color:var(--navy); font-size:32px; line-height:1.1; }
+h3 { margin:0 0 9px; color:var(--navy); font-size:20px; }
+p { line-height:1.5; }
+.lead { max-width:720px; color:var(--muted); font-size:17px; }
+.view { display:none; }
+.view.active { display:block; }
+.grid { display:grid; gap:16px; }
+.grid.two { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.card { padding:22px; background:var(--white); border:1px solid var(--line); box-shadow:0 2px 8px #263f5b12; }
+.card.accent-blue { border-top:5px solid var(--blue); }
+.card.accent-amber { border-top:5px solid var(--amber); }
+.card.accent-green { border-top:5px solid var(--green); }
+.card.accent-red { border-top:5px solid var(--red); }
+.metric { font-size:32px; color:var(--navy); font-weight:700; }
+.muted { color:var(--muted); }
+.tag { display:inline-block; padding:4px 7px; color:var(--navy); background:#e8eef3; border:1px solid #c4d0da; font:700 10px Arial,sans-serif; letter-spacing:.5px; text-transform:uppercase; }
+.actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:18px; }
+.primary, .secondary, .choice { padding:10px 14px; border:1px solid var(--navy); }
+.primary { color:white; background:var(--navy); }
+.secondary { color:var(--navy); background:white; }
+.primary:hover, .secondary:hover { filter:brightness(1.08); }
+.lesson-head { display:flex; justify-content:space-between; gap:15px; align-items:start; margin-bottom:18px; }
+.lesson-number { color:var(--muted); font:700 12px Arial,sans-serif; }
+.callout { margin:18px 0; padding:15px 18px; border-left:4px solid var(--blue); background:#edf7f9; }
+.visual { min-height:230px; padding:20px; background:var(--wash); border:1px solid var(--line); }
+.diagram { display:flex; flex-direction:column; align-items:center; gap:8px; margin:15px auto; }
+.node { min-width:180px; padding:12px 15px; color:var(--navy); background:white; border:1px solid var(--navy); text-align:center; font-weight:700; }
+.arrow { color:var(--blue); font-size:22px; line-height:.7; }
+.code { margin:14px 0 0; padding:15px; overflow:auto; color:#eaf1f5; background:#192832; font:13px/1.55 Consolas,"Courier New",monospace; white-space:pre-wrap; }
+.demo-controls { display:flex; flex-wrap:wrap; gap:9px; margin:14px 0; }
+select, input[type=text] { padding:9px; border:1px solid var(--line); background:white; }
+.demo-output { min-height:48px; padding:13px; background:#f7fafb; border:1px solid var(--line); font-family:Consolas,"Courier New",monospace; white-space:pre-wrap; }
+.box-model { width:80%; max-width:350px; margin:18px auto; padding:20px; border:3px solid #8e9aa5; background:#e4e8ec; text-align:center; }
+.box-model .padding { padding:17px; border:3px solid #d18a3e; background:#fff4e7; }
+.box-model .border { padding:17px; border:3px solid #52606d; background:white; }
+.box-model .content { padding:17px; background:#dceaf4; }
+.axes { position:relative; width:80%; max-width:400px; height:160px; margin:20px auto; border-bottom:3px solid var(--green); border-left:3px solid var(--green); }
+.axes::after { content:'main axis'; position:absolute; right:0; bottom:-27px; color:var(--green); font-weight:700; }
+.axes::before { content:'cross axis'; position:absolute; left:-52px; top:8px; color:var(--green); font-weight:700; transform:rotate(-90deg); }
+.choice { display:block; width:100%; margin:8px 0; color:var(--ink); background:white; text-align:left; border-color:var(--line); }
+.choice:hover { border-color:var(--blue); background:#f1f8fa; }
+.choice.correct { color:#155b32; background:#eaf6ee; border-color:#62a878; }
+.choice.wrong { color:#8e2d2d; background:#fceeee; border-color:#d48787; }
+.feedback { min-height:24px; margin-top:10px; font-weight:700; }
+.checklist { list-style:none; margin:0; padding:0; }
+.checklist li { margin:12px 0; }
+.checklist input { width:17px; height:17px; margin-right:9px; vertical-align:middle; accent-color:var(--navy); }
+.small { font-size:12px; }
+@media(max-width:850px) { .app { display:block; } .sidebar { position:static; } .nav { grid-template-columns:repeat(2,1fr); } .main { padding:25px 18px 45px; } .grid.two,.grid.three { grid-template-columns:1fr; } .topbar { display:block; } }
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><small>Interactive learning lab</small><h1>Month 1<br>Foundations</h1></div>
+  <div class="progress"><div class="progress-label"><span>Progress</span><strong id="progressText">0%</strong></div><div class="progress-bar"><span id="progressBar"></span></div></div>
+  <nav class="nav" aria-label="Lessons">
+    <button data-view="home" class="active">Overview<span>Start here</span></button>
+    <button data-view="html">01 · HTML<span>Structure & semantics</span></button>
+    <button data-view="css">02 · CSS<span>Box model & Flexbox</span></button>
+    <button data-view="javascript">03 · JavaScript<span>Data & async flow</span></button>
+    <button data-view="react">04 · React<span>State & architecture</span></button>
+    <button data-view="debug">05 · Debugging<span>DevTools & AI review</span></button>
+    <button data-view="capstone">06 · Capstone<span>Build and explain</span></button>
+  </nav>
+</aside>
+<main class="main">
+  <section id="home" class="view active">
+    <div class="topbar"><div><div class="eyebrow">A guided visual course</div><h2>Build the mental model first.</h2><p class="lead">Learn the foundations by seeing the structure, changing the code, and explaining what happened. Each lesson includes a diagram, a small interactive lab, and a knowledge check.</p></div><span class="tag">6 modules</span></div>
+    <div class="grid three">
+      <article class="card accent-blue"><div class="metric">01</div><h3>See</h3><p>Use diagrams for document structure, layout axes, data flow, and component boundaries.</p></article>
+      <article class="card accent-amber"><div class="metric">02</div><h3>Change</h3><p>Interact with small examples. Toggle box sizing, transform arrays, and update state.</p></article>
+      <article class="card accent-green"><div class="metric">03</div><h3>Explain</h3><p>Answer checks without notes, then use the feedback to target your next review.</p></article>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Recommended path</h3><div class="flow" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="tag">HTML</span><strong>→</strong><span class="tag">CSS</span><strong>→</strong><span class="tag">JavaScript</span><strong>→</strong><span class="tag">React</span><strong>→</strong><span class="tag">Debugging</span><strong>→</strong><span class="tag">Capstone</span></div><p class="muted">Complete one module in a focused session. Revisit any check you miss before moving forward.</p><button class="primary" data-go="html">Begin HTML module</button></div>
+  </section>
+
+  <section id="html" class="view">
+    <div class="lesson-head"><div><div class="eyebrow">Module 01</div><h2>HTML: Give the page meaning.</h2><p class="lead">HTML is the structure and meaning of a page. Good markup helps browsers, users, and assistive technology understand the interface.</p></div><div class="lesson-number">1 / 6</div></div>
+    <div class="grid two"><article class="card accent-blue"><h3>Visual model</h3><div class="diagram"><div class="node">html · root</div><div class="arrow">↓</div><div class="node">head · metadata</div><div class="arrow">↓</div><div class="node">body · visible content</div></div><div class="code">&lt;header&gt; &lt;nav&gt; &lt;main&gt; &lt;footer&gt;</div></article><article class="card"><h3>Build the skeleton</h3><p>Every HTML page begins with a document declaration, a root element, metadata, and visible content.</p><div class="code">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;Content&lt;/body&gt;
+&lt;/html&gt;</div></article></div>
+    <div class="card" style="margin-top:16px"><h3>Knowledge check</h3><p>Which section contains metadata, the page title, and the external stylesheet link?</p><button class="choice" data-answer="wrong">The <code>body</code></button><button class="choice" data-answer="correct">The <code>head</code></button><button class="choice" data-answer="wrong">The <code>footer</code></button><div class="feedback"></div></div>
+  </section>
+
+  <section id="css" class="view">
+    <div class="lesson-head"><div><div class="eyebrow">Module 02</div><h2>CSS: Make space predictable.</h2><p class="lead">The box model explains size. Flexbox explains alignment. Responsive constraints keep the page usable across screens.</p></div><div class="lesson-number">2 / 6</div></div>
+    <div class="grid two"><article class="card accent-amber"><h3>Box model explorer</h3><div class="box-model">margin<div class="padding">border<div class="border">padding<div class="content" id="boxContent">content: 240px</div></div></div></div></div><div class="demo-controls"><button class="secondary" id="boxToggle">Switch to border-box</button></div><p class="small muted" id="boxMessage">content-box: padding and border add to the declared width.</p></article><article class="card"><h3>Flexbox axes</h3><div class="axes"></div><p><strong>justify-content</strong> works along the main axis. <strong>align-items</strong> works along the cross axis. Change <code>flex-direction</code> to change the main axis.</p><div class="code">display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;</div></article></div>
+    <div class="card" style="margin-top:16px"><h3>Knowledge check</h3><p>Which property includes padding and borders inside the declared width?</p><button class="choice" data-answer="correct"><code>box-sizing: border-box</code></button><button class="choice" data-answer="wrong"><code>display: flex</code></button><button class="choice" data-answer="wrong"><code>width: auto</code></button><div class="feedback"></div></div>
+  </section>
+
+  <section id="javascript" class="view">
+    <div class="lesson-head"><div><div class="eyebrow">Module 03</div><h2>JavaScript: Transform data without surprises.</h2><p class="lead">References, immutable operations, and asynchronous flow explain why data changes appear correctly, incorrectly, or not at all.</p></div><div class="lesson-number">3 / 6</div></div>
+    <div class="grid two"><article class="card accent-amber"><h3>Array transformation lab</h3><p class="muted">Choose an operation and watch the result.</p><div class="demo-controls"><select id="arrayOperation"><option value="original">Original</option><option value="filter">filter: active only</option><option value="map">map: names only</option><option value="chain">filter then map</option></select></div><div class="demo-output" id="arrayOutput"></div><div class="code" id="arrayCode"></div></article><article class="card accent-blue"><h3>Fetch flow</h3><div class="diagram"><div class="node">pending Promise</div><div class="arrow">↓</div><div class="node">Response</div><div class="arrow">↓</div><div class="node">check response.ok</div><div class="arrow">↓</div><div class="node">await response.json()</div></div><p class="small">A 404 or 500 response usually resolves. Your code must check <code>response.ok</code>.</p></article></div>
+    <div class="card" style="margin-top:16px"><h3>Knowledge check</h3><p>Which operation returns a new array of the same length?</p><button class="choice" data-answer="wrong"><code>filter</code></button><button class="choice" data-answer="correct"><code>map</code></button><button class="choice" data-answer="wrong"><code>forEach</code></button><div class="feedback"></div></div>
+  </section>
+
+  <section id="react" class="view">
+    <div class="lesson-head"><div><div class="eyebrow">Module 04</div><h2>React: Make state and data flow visible.</h2><p class="lead">React becomes predictable when data flows down through props and change requests flow up through focused callbacks.</p></div><div class="lesson-number">4 / 6</div></div>
+    <div class="grid two"><article class="card accent-green"><h3>Data flow diagram</h3><div class="diagram"><div class="node">parent state</div><div class="arrow">↓ props</div><div class="node">child UI</div><div class="arrow">↑ callback</div><div class="node">state update</div></div><div class="code">setCount(prev =&gt; prev + 1)</div></article><article class="card"><h3>State rules</h3><ul><li>Never mutate state directly.</li><li>Use a new array or object reference.</li><li>Use functional updates when next state depends on previous state.</li><li>Calculate derived values instead of storing duplicates.</li><li>Give mapped list items stable unique keys.</li></ul></article></div>
+    <div class="card" style="margin-top:16px"><h3>Knowledge check</h3><p>Which update avoids a stale state bug when the next count depends on the previous count?</p><button class="choice" data-answer="wrong"><code>setCount(count + 1)</code></button><button class="choice" data-answer="correct"><code>setCount(prev =&gt; prev + 1)</code></button><button class="choice" data-answer="wrong"><code>count++</code></button><div class="feedback"></div></div>
+  </section>
+
+  <section id="debug" class="view">
+    <div class="lesson-head"><div><div class="eyebrow">Module 05</div><h2>Debugging: Follow the evidence.</h2><p class="lead">Do not guess at a broken interface. Use the Console, Network tab, and the smallest relevant code snippet to make the failure specific.</p></div><div class="lesson-number">5 / 6</div></div>
+    <div class="grid three"><article class="card accent-red"><h3>1 · Console</h3><p>Read the exact error, file name, and line number.</p></article><article class="card accent-red"><h3>2 · Network</h3><p>Inspect URL, method, status, payload, and response.</p></article><article class="card accent-red"><h3>3 · Explain</h3><p>Give AI the failing function and exact error, not the whole project.</p></article></div>
+    <div class="card" style="margin-top:16px"><h3>Review an AI snippet</h3><div class="code">items.forEach(item =&gt; item.name)
+setItems(items)
+
+items.map((item, index) =&gt; &lt;Row key={index} item={item} /&gt;)</div><p>Identify at least three issues. Think about return values, mutation, and stable keys.</p><input id="debugAnswer" type="text" placeholder="Type one issue you found" style="width:100%"><button class="primary" style="margin-top:10px" id="debugSubmit">Check my diagnosis</button><div class="feedback" id="debugFeedback"></div></div>
+  </section>
+
+  <section id="capstone" class="view">
+    <div class="lesson-head"><div><div class="eyebrow">Module 06</div><h2>Capstone: Build and teach back.</h2><p class="lead">Combine the month into a responsive task board. The goal is not just working code; it is a clear explanation of the data flow and your debugging decisions.</p></div><div class="lesson-number">6 / 6</div></div>
+    <div class="grid two"><article class="card accent-green"><h3>Build sequence</h3><ol><li>Sketch the component hierarchy.</li><li>Define the task object shape.</li><li>Add immutable add, toggle, and delete actions.</li><li>Derive filtered counts during render.</li><li>Use stable IDs for list keys.</li><li>Test responsive layout and all visible states.</li></ol></article><article class="card accent-blue"><h3>Completion checklist</h3><ul class="checklist"><li><input type="checkbox" data-progress>Semantic page structure</li><li><input type="checkbox" data-progress>Responsive two-column layout</li><li><input type="checkbox" data-progress>Immutable data demo</li><li><input type="checkbox" data-progress>React task board</li><li><input type="checkbox" data-progress>Reviewed and explained</li></ul></article></div>
+    <div class="card" style="margin-top:16px"><h3>Teach-back prompt</h3><p>Record a five-minute explanation: Where does data enter? Where does it change? Which components receive it? How would you diagnose a failed request or stale UI?</p><textarea id="teachback" rows="5" style="width:100%;padding:10px;border:1px solid var(--line);font:inherit" placeholder="Write your explanation here..."></textarea><button class="primary" style="margin-top:10px" data-save>Save progress</button><span class="muted small" id="saveStatus"></span></div>
+  </section>
+</main>
+</div>
+<script>
+const views = [...document.querySelectorAll('.view')];
+const navButtons = [...document.querySelectorAll('.nav button')];
+const state = JSON.parse(localStorage.getItem('month1-learning') || '{}');
+function showView(id) { views.forEach(view => view.classList.toggle('active', view.id === id)); navButtons.forEach(button => button.classList.toggle('active', button.dataset.view === id)); window.scrollTo({top:0, behavior:'smooth'}); }
+navButtons.forEach(button => button.addEventListener('click', () => showView(button.dataset.view)));
+document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => showView(button.dataset.go)));
+function save() { localStorage.setItem('month1-learning', JSON.stringify(state)); updateProgress(); }
+function updateProgress() { const checks = document.querySelectorAll('[data-progress]'); const completed = [...checks].filter(item => item.checked).length; const quiz = document.querySelectorAll('.choice.correct.selected').length; const total = checks.length + 5; const value = Math.round(((completed + quiz) / total) * 100); document.getElementById('progressText').textContent = `${value}%`; document.getElementById('progressBar').style.width = `${value}%`; }
+document.querySelectorAll('.choice').forEach(choice => choice.addEventListener('click', () => { const group = choice.parentElement; group.querySelectorAll('.choice').forEach(item => item.classList.remove('correct','wrong','selected')); const feedback = group.querySelector('.feedback'); choice.classList.add(choice.dataset.answer, 'selected'); feedback.textContent = choice.dataset.answer === 'correct' ? 'Correct. Explain why this is the best choice.' : 'Not quite. Review the visual model, then try again.'; updateProgress(); }));
+document.querySelectorAll('[data-progress]').forEach((item, index) => { item.checked = Boolean(state[`check${index}`]); item.addEventListener('change', () => { state[`check${index}`] = item.checked; save(); }); });
+const boxToggle = document.getElementById('boxToggle'); let borderBox = false; boxToggle.addEventListener('click', () => { borderBox = !borderBox; boxToggle.textContent = borderBox ? 'Switch to content-box' : 'Switch to border-box'; document.getElementById('boxMessage').textContent = borderBox ? 'border-box: padding and border stay inside the declared width.' : 'content-box: padding and border add to the declared width.'; document.getElementById('boxContent').textContent = borderBox ? 'border-box: 240px total' : 'content: 240px'; });
+const items = [{name:'Study HTML',active:true},{name:'Practice CSS',active:false},{name:'Build React',active:true}]; const arrayOperation = document.getElementById('arrayOperation'); function updateArray() { const op=arrayOperation.value; let result=items, code='items'; if(op==='filter'){result=items.filter(item=>item.active);code='items.filter(item => item.active)';} if(op==='map'){result=items.map(item=>item.name);code='items.map(item => item.name)';} if(op==='chain'){result=items.filter(item=>item.active).map(item=>item.name);code='items.filter(test).map(transform)';} document.getElementById('arrayOutput').textContent=JSON.stringify(result,null,2); document.getElementById('arrayCode').textContent=code; } arrayOperation.addEventListener('change',updateArray); updateArray();
+document.getElementById('debugSubmit').addEventListener('click', () => { const answer=document.getElementById('debugAnswer').value.toLowerCase(); const feedback=document.getElementById('debugFeedback'); const found=['foreach','mutation','mutat','index','key','undefined'].some(term=>answer.includes(term)); feedback.textContent=found ? 'Good diagnosis. Now find two more issues.' : 'Look for forEach return values, direct mutation, and index keys.'; });
+document.querySelector('[data-save]').addEventListener('click', () => { state.teachback=document.getElementById('teachback').value; save(); document.getElementById('saveStatus').textContent=' Saved.'; });
+if(state.teachback) document.getElementById('teachback').value=state.teachback; updateProgress();
+</script>
+</body>
+</html>
