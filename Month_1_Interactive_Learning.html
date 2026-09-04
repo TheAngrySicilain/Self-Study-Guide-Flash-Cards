@@ -11,7 +11,7 @@ body { margin:0; color:var(--ink); background:#eef2f5; font-family:Cambria, Geor
 button, input, select { font:inherit; }
 button { cursor:pointer; }
 .app { min-height:100vh; display:grid; grid-template-columns:260px 1fr; }
-.sidebar { padding:28px 20px; color:#eef4f8; background:var(--navy); }
+.sidebar { position:sticky; top:0; height:100vh; overflow:auto; align-self:start; padding:28px 20px; color:#eef4f8; background:var(--navy); }
 .brand { padding-bottom:22px; border-bottom:1px solid #71859a; }
 .brand small { display:block; color:#b9c9d6; font:700 10px Arial,sans-serif; letter-spacing:1.4px; text-transform:uppercase; }
 .brand h1 { margin:8px 0 0; font-size:24px; line-height:1.1; }
@@ -23,7 +23,7 @@ button { cursor:pointer; }
 .nav button { padding:11px 12px; color:#dce8ef; background:transparent; border:1px solid transparent; text-align:left; }
 .nav button:hover, .nav button.active { color:white; background:#35536d; border-color:#7892a8; }
 .nav button span { display:block; color:#9db2c2; font:10px Arial,sans-serif; margin-top:3px; }
-.main { max-width:1200px; width:100%; margin:0 auto; padding:34px 42px 60px; }
+.main { min-width:0; max-width:1200px; width:100%; margin:0 auto; padding:34px 42px 60px; }
 .topbar { display:flex; justify-content:space-between; gap:20px; align-items:start; margin-bottom:26px; }
 .eyebrow { color:var(--blue); font:700 11px Arial,sans-serif; letter-spacing:1.3px; text-transform:uppercase; }
 h2 { margin:7px 0; color:var(--navy); font-size:32px; line-height:1.1; }
@@ -123,7 +123,7 @@ select, input[type=text] { padding:9px; border:1px solid var(--line); background
 
   <section id="css" class="view">
     <div class="lesson-head"><div><div class="eyebrow">Module 02</div><h2>CSS: Make space predictable.</h2><p class="lead">The box model explains size. Flexbox explains alignment. Responsive constraints keep the page usable across screens.</p></div><div class="lesson-number">2 / 6</div></div>
-    <div class="grid two"><article class="card accent-amber"><h3>Box model explorer</h3><div class="box-model">margin<div class="padding">border<div class="border">padding<div class="content" id="boxContent">content: 240px</div></div></div></div></div><div class="demo-controls"><button class="secondary" id="boxToggle">Switch to border-box</button></div><p class="small muted" id="boxMessage">content-box: padding and border add to the declared width.</p></article><article class="card"><h3>Flexbox axes</h3><div class="axes"></div><p><strong>justify-content</strong> works along the main axis. <strong>align-items</strong> works along the cross axis. Change <code>flex-direction</code> to change the main axis.</p><div class="code">display: flex;
+    <div class="grid two"><article class="card accent-amber"><h3>Box model explorer</h3><div class="box-model">margin<div class="padding">border<div class="border">padding<div class="content" id="boxContent">content: 240px</div></div></div></div><div class="demo-controls"><button class="secondary" id="boxToggle">Switch to border-box</button></div><p class="small muted" id="boxMessage">content-box: padding and border add to the declared width.</p></article><article class="card"><h3>Flexbox axes</h3><div class="axes"></div><p><strong>justify-content</strong> works along the main axis. <strong>align-items</strong> works along the cross axis. Change <code>flex-direction</code> to change the main axis.</p><div class="code">display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: center;</div></article></div>
@@ -179,7 +179,7 @@ items.map((item, index) =&gt; &lt;Row key={index} item={item} /&gt;)</div><p>Ide
 const views = [...document.querySelectorAll('.view')];
 const navButtons = [...document.querySelectorAll('.nav button')];
 const state = JSON.parse(localStorage.getItem('month1-learning') || '{}');
-function showView(id) { views.forEach(view => view.classList.toggle('active', view.id === id)); navButtons.forEach(button => button.classList.toggle('active', button.dataset.view === id)); window.scrollTo({top:0, behavior:'smooth'}); }
+function showView(id) { views.forEach(view => view.classList.toggle('active', view.id === id)); navButtons.forEach(button => button.classList.toggle('active', button.dataset.view === id)); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; }
 navButtons.forEach(button => button.addEventListener('click', () => showView(button.dataset.view)));
 document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => showView(button.dataset.go)));
 function save() { localStorage.setItem('month1-learning', JSON.stringify(state)); updateProgress(); }
