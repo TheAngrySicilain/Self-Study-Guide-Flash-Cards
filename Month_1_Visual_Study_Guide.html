@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Month 1 Visual Study Guide</title>
+<style>
+  @page { size: letter landscape; margin: 0.35in; }
+  :root { --ink: #1f2933; --muted: #52606d; --navy: #263f5b; --line: #b7c2cc; --paper: #ffffff; --wash: #f5f7f9; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--ink); background: #e9edf1; font-family: Cambria, Georgia, "Times New Roman", serif; }
+  .page { width: 10.3in; min-height: 7.5in; margin: 18px auto; padding: 0.25in; background: var(--paper); page-break-after: always; }
+  .cover { display: flex; flex-direction: column; justify-content: center; border-top: 0.14in solid var(--navy); }
+  h1 { margin: 0; color: var(--navy); font-size: 31px; line-height: 1.1; }
+  h2 { margin: 0 0 0.12in; color: var(--navy); font-size: 21px; }
+  h3 { margin: 0 0 0.07in; color: var(--navy); font-size: 14px; }
+  p, li { font-size: 11px; line-height: 1.35; }
+  .subtitle { margin: 0.1in 0 0.35in; color: var(--muted); font-size: 17px; }
+  .eyebrow { color: var(--muted); font: 700 10px Arial, sans-serif; letter-spacing: 1.5px; text-transform: uppercase; }
+  .rule { width: 0.8in; border-top: 4px solid var(--navy); margin: 0.2in 0; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.14in; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.14in; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.14in; }
+  .panel { padding: 0.15in; border: 1px solid var(--line); background: var(--wash); }
+  .panel strong { color: var(--navy); }
+  .week { min-height: 2.1in; border-top: 0.11in solid var(--navy); background: #f8fafc; }
+  .week:nth-child(2) { border-top-color: #52606d; }
+  .week:nth-child(3) { border-top-color: #344e41; }
+  .week:nth-child(4) { border-top-color: #475569; }
+  .week-number { margin-bottom: 0.04in; color: var(--muted); font: 700 10px Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+  .day { display: grid; grid-template-columns: 0.38in 1fr; gap: 0.06in; margin: 0.06in 0; align-items: start; }
+  .day-num { color: var(--navy); font: 700 10px Arial, sans-serif; }
+  .day-text { font-size: 10px; line-height: 1.25; }
+  .flow { display: flex; align-items: center; justify-content: center; gap: 0.08in; margin: 0.22in 0; }
+  .node { min-width: 1.35in; padding: 0.12in 0.08in; border: 1px solid var(--navy); background: white; text-align: center; font-size: 11px; font-weight: 700; }
+  .arrow { color: var(--navy); font-size: 21px; }
+  .stack { display: flex; flex-direction: column; align-items: center; gap: 0.05in; }
+  .stack .node { min-width: 2.2in; }
+  .box-model { margin: 0.12in auto; padding: 0.1in; border: 2px solid #7b8794; background: #e4e7eb; text-align: center; font-size: 10px; }
+  .box-model .padding { padding: 0.09in; border: 2px solid #9aa7b3; background: #f7f9fb; }
+  .box-model .border { padding: 0.09in; border: 2px solid #52606d; background: white; }
+  .box-model .content { padding: 0.1in; background: #d9e2ec; }
+  .axis { position: relative; height: 1.35in; margin: 0.12in auto; width: 80%; border-left: 2px solid var(--navy); border-bottom: 2px solid var(--navy); }
+  .axis::after { content: "main axis ->"; position: absolute; right: 0; bottom: -0.21in; color: var(--navy); font-size: 10px; font-weight: 700; }
+  .axis::before { content: "cross axis"; position: absolute; left: -0.45in; top: 0; transform: rotate(-90deg); color: var(--navy); font-size: 10px; font-weight: 700; }
+  code { display: block; margin-top: 0.1in; padding: 0.1in; color: #e8eef4; background: #26313d; font: 10px/1.4 Consolas, "Courier New", monospace; white-space: pre-wrap; }
+  ul { margin: 0.05in 0 0; padding-left: 0.18in; }
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { margin: 0.08in 0; }
+  .checklist li::before { content: "[ ]  "; color: var(--navy); font-family: Consolas, monospace; font-weight: 700; }
+  .quote { margin: 0.18in 0; padding: 0.15in 0.2in; border-left: 4px solid var(--navy); color: var(--muted); font-size: 16px; font-style: italic; }
+  .footer { margin-top: 0.16in; padding-top: 0.08in; border-top: 1px solid var(--line); color: var(--muted); font: 9px Arial, sans-serif; }
+  @media print { body { background: white; } .page { margin: 0; } }
+</style>
+</head>
+<body>
+<section class="page cover">
+  <div class="eyebrow">Month 1 learning plan</div>
+  <h1>UI, Modern CSS &amp; React Foundations</h1>
+  <p class="subtitle">A visual study guide for building, reviewing, and debugging with confidence.</p>
+  <div class="rule"></div>
+  <div class="grid-3">
+    <div class="panel"><h3>Build</h3><p>Semantic HTML, responsive layouts, data demos, and a React task board.</p></div>
+    <div class="panel"><h3>Understand</h3><p>Box model, Flexbox, immutable data, asynchronous requests, state, and data flow.</p></div>
+    <div class="panel"><h3>Validate</h3><p>Use DevTools, precise error reports, code review checklists, and independent diagnosis.</p></div>
+  </div>
+  <div class="quote">Your job with AI-assisted software is to review, validate, and debug what was generated.</div>
+  <div class="footer">Source: Month 1 Self-Study Guide: UI, Modern CSS &amp; React Foundations</div>
+</section>
+
+<section class="page">
+  <div class="eyebrow">At a glance</div>
+  <h2>Four-Week Roadmap</h2>
+  <div class="grid-4">
+    <article class="panel week"><div class="week-number">Week 1</div><h3>Modern Layouts</h3><p>Master the box model, Flexbox axes, responsive constraints, and DevTools inspection.</p><div class="day"><span class="day-num">01</span><span class="day-text">Box model and <code>border-box</code></span></div><div class="day"><span class="day-num">02</span><span class="day-text">Flexbox alignment</span></div><div class="day"><span class="day-num">03</span><span class="day-text">Responsive widths</span></div><div class="day"><span class="day-num">04</span><span class="day-text">Inspect winning CSS rules</span></div><div class="day"><span class="day-num">05</span><span class="day-text">Build a two-column page</span></div></article>
+    <article class="panel week"><div class="week-number">Week 2</div><h3>Data Flow</h3><p>Transform data without mutation and handle asynchronous requests visibly.</p><div class="day"><span class="day-num">01</span><span class="day-text">Values and references</span></div><div class="day"><span class="day-num">02</span><span class="day-text"><code>map</code>, <code>filter</code>, and spread</span></div><div class="day"><span class="day-num">03</span><span class="day-text"><code>fetch</code> lifecycle</span></div><div class="day"><span class="day-num">04</span><span class="day-text">Network debugging</span></div><div class="day"><span class="day-num">05</span><span class="day-text">Build a data demo</span></div></article>
+    <article class="panel week"><div class="week-number">Week 3</div><h3>React Architecture</h3><p>Build predictable components with props, state, keys, and client boundaries.</p><div class="day"><span class="day-num">01</span><span class="day-text">Component hierarchy</span></div><div class="day"><span class="day-num">02</span><span class="day-text">State and events</span></div><div class="day"><span class="day-num">03</span><span class="day-text">Immutable collections</span></div><div class="day"><span class="day-num">04</span><span class="day-text">Derived state and keys</span></div><div class="day"><span class="day-num">05</span><span class="day-text">Build a task board</span></div></article>
+    <article class="panel week"><div class="week-number">Week 4</div><h3>Review &amp; Integration</h3><p>Prompt precisely, diagnose independently, review AI output, and teach back the system.</p><div class="day"><span class="day-num">01</span><span class="day-text">Prompt architecture</span></div><div class="day"><span class="day-num">02</span><span class="day-text">Code review drill</span></div><div class="day"><span class="day-num">03</span><span class="day-text">Debugging drill</span></div><div class="day"><span class="day-num">04</span><span class="day-text">Refactor components</span></div><div class="day"><span class="day-num">05</span><span class="day-text">Capstone and teach-back</span></div></article>
+  </div>
+  <h2 style="margin-top:0.25in">Daily Session Pattern</h2>
+  <div class="flow"><div class="node">10 min<br><small>Review</small></div><div class="arrow">→</div><div class="node">15 min<br><small>Concept</small></div><div class="arrow">→</div><div class="node">25 min<br><small>Practice</small></div><div class="arrow">→</div><div class="node">10 min<br><small>Document</small></div></div>
+  <div class="footer">One small sandbox project should grow throughout the month.</div>
+</section>
+
+<section class="page">
+  <div class="eyebrow">Mental models</div>
+  <h2>How the Core Ideas Fit Together</h2>
+  <div class="grid-3">
+    <article class="panel"><h3>HTML structure</h3><div class="stack"><div class="node">html<br><small>root</small></div><div class="arrow">↓</div><div class="node">head<br><small>metadata and links</small></div><div class="arrow">↓</div><div class="node">body<br><small>visible content</small></div></div><code>&lt;header&gt; &lt;main&gt; &lt;footer&gt;</code></article>
+    <article class="panel"><h3>CSS box model</h3><div class="box-model">margin<div class="padding">border<div class="border">padding<div class="content">content</div></div></div></div></div><p><strong>border-box</strong> includes padding and borders inside the declared size.</p><code>* { box-sizing: border-box; }</code></article>
+    <article class="panel"><h3>Flexbox axes</h3><div class="axis"></div><ul><li><strong>justify-content</strong> follows the main axis.</li><li><strong>align-items</strong> follows the cross axis.</li><li><strong>flex-direction</strong> chooses the main axis.</li></ul></article>
+    <article class="panel"><h3>JavaScript transformation</h3><div class="flow"><div class="node">original array</div><div class="arrow">↓</div><div class="node"><code>filter</code><br>keep matches</div><div class="arrow">↓</div><div class="node"><code>map</code><br>transform</div><div class="arrow">↓</div><div class="node">new array</div></div></article>
+    <article class="panel"><h3>React data flow</h3><div class="flow"><div class="node">parent state</div><div class="arrow">↓ props</div><div class="node">child UI</div><div class="arrow">↑ callback</div><div class="node">state update</div></div><code>setCount(prev =&gt; prev + 1)</code></article>
+    <article class="panel"><h3>Immutable update</h3><p>References matter. Create a new outer array or object so React can detect the change.</p><code>setItems([...items, newItem])
+
+items.map(update)
+items.filter(keep)</code></article>
+  </div>
+  <div class="footer">Remember: derived values should be calculated from existing state instead of stored redundantly.</div>
+</section>
+
+<section class="page">
+  <div class="eyebrow">Debugging workflow</div>
+  <h2>Trace the Request, Then Explain the Failure</h2>
+  <div class="grid-2">
+    <article class="panel"><h3>Fetch lifecycle</h3><div class="flow"><div class="node">pending Promise</div><div class="arrow">↓</div><div class="node">Response</div><div class="arrow">↓</div><div class="node">check <code>response.ok</code></div><div class="arrow">↓</div><div class="node"><code>await response.json()</code></div></div><p><strong>Important:</strong> HTTP 400 and 500 responses usually do not reject <code>fetch</code>; check <code>response.ok</code> yourself.</p></article>
+    <article class="panel"><h3>Network inspection</h3><ul><li><strong>Headers:</strong> URL, method, and status.</li><li><strong>Payload:</strong> JSON sent by the client.</li><li><strong>Response:</strong> raw JSON returned by the server.</li><li><strong>States:</strong> loading, success, empty, and error.</li></ul></article>
+    <article class="panel"><h3>Systematic error triage</h3><div class="stack"><div class="node">1. Console<br><small>exact file and line</small></div><div class="arrow">↓</div><div class="node">2. Network<br><small>status and payload</small></div><div class="arrow">↓</div><div class="node">3. AI request<br><small>smallest failing snippet</small></div></div></article>
+    <article class="panel"><h3>AI review checklist</h3><ul class="checklist"><li><code>use client</code> when hooks or events are used.</li><li>State updates are immutable.</li><li>List keys are stable and unique.</li><li>Layouts use responsive constraints.</li><li>Derived values are not redundant state.</li></ul></article>
+  </div>
+  <div class="quote">Make one independent diagnosis before requesting generated code.</div>
+  <div class="footer">Record the exact error, expected behavior, and smallest relevant snippet.</div>
+</section>
+
+<section class="page">
+  <div class="eyebrow">Completion and retention</div>
+  <h2>Evidence, Review, and Month-End Check</h2>
+  <div class="grid-3">
+    <article class="panel"><h3>Daily evidence</h3><ul class="checklist"><li>One code sample.</li><li>One screenshot or console/network observation.</li><li>One sentence explaining the lesson.</li><li>One independent diagnosis before asking AI.</li></ul></article>
+    <article class="panel"><h3>Spaced review</h3><div class="flow"><div class="node">Day 1<br><small>first review</small></div><div class="arrow">→</div><div class="node">Day 3<br><small>second review</small></div><div class="arrow">→</div><div class="node">Day 7<br><small>retest</small></div></div><p>Mark a term learned only after defining and applying it correctly twice without notes.</p></article>
+    <article class="panel"><h3>Portfolio evidence</h3><ul class="checklist"><li>Week 1 responsive layout.</li><li>Week 2 data demo.</li><li>Week 3 React task board.</li><li>Week 4 reviewed capstone.</li></ul></article>
+  </div>
+  <h2 style="margin-top:0.25in">Month 1 Self-Assessment</h2>
+  <div class="grid-2"><article class="panel"><ul class="checklist"><li>Explain why <code>border-box</code> matters.</li><li>Build a responsive two-column layout.</li><li>Explain mutation versus shallow copy.</li></ul></article><article class="panel"><ul class="checklist"><li>Explain why <code>push()</code> can prevent a React update.</li><li>Diagnose a failed network request.</li><li>Resolve a missing <code>use client</code> boundary.</li></ul></article></div>
+  <div class="footer">Before Month 2, answer every item “Yes” or create a specific remediation task.</div>
+</section>
+</body>
+</html>
